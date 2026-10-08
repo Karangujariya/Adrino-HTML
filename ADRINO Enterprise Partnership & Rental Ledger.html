@@ -1,0 +1,3129 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADRINO ERP - 50/50 Partnership, Equipment Rent & Spares Register</title>
+  <meta name="theme-color" content="#0f172a">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: #0b1120;
+      color: #1e293b;
+    }
+    .font-mono-num {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #ea580c; }
+
+    .modal-backdrop { backdrop-filter: blur(8px); }
+    .table-hover-row:hover td { background-color: #1e293b40; }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background-color: #ffffff !important; color: #000000 !important; }
+      .print-shadow-none { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+      .a4-voucher-page {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased selection:bg-orange-500 selection:text-white">
+
+  <header class="bg-slate-900/90 border-b border-slate-800 sticky top-0 z-40 backdrop-blur-md no-print">
+    <div class="max-w-[1560px] mx-auto px-4 sm:px-6 py-3 flex flex-wrap justify-between items-center gap-3">
+      
+      <div class="flex items-center gap-3.5">
+        <!-- Recreated Crisp Vector Logo matching 15097.png -->
+        <div class="w-12 h-12 bg-white rounded-xl shadow-md p-1 flex items-center justify-center border border-slate-700/60 shrink-0">
+          <svg viewBox="0 0 200 200" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 24L156 126H130L100 70L70 126H44L100 24Z" fill="#EA580C"/>
+            <path d="M52 126C66 98 134 98 148 126H168C148 86 52 86 32 126H52Z" fill="#1E293B"/>
+            <rect x="94" y="96" width="12" height="20" rx="3" fill="#FFFFFF"/>
+            <path d="M78 116H92V124H78Z" fill="#0F172A"/>
+            <path d="M96 112L124 104L114 124H94L96 112Z" fill="#EA580C"/>
+            <circle cx="85" cy="126" r="6" fill="#0F172A"/>
+            <circle cx="85" cy="126" r="2.5" fill="#FFFFFF"/>
+            <circle cx="112" cy="126" r="6" fill="#0F172A"/>
+            <circle cx="112" cy="126" r="2.5" fill="#FFFFFF"/>
+          </svg>
+        </div>
+
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="navBrandTag" class="text-orange-500 font-black tracking-wider text-xs uppercase px-1.5 py-0.5 rounded bg-orange-950/60 border border-orange-500/30">ADRINO ERP</span>
+            <h1 id="navBrandName" class="text-base sm:text-lg font-black tracking-tight text-white uppercase">ADRINO CONSTRUCTIONS</h1>
+          </div>
+          <p id="navBrandDesc" class="text-[11px] text-slate-400 font-medium truncate max-w-xs sm:max-w-md">
+            કરણ & જયેશભાઈ • 50/50 ભાગીદારી ખાતાવહી & મશીનરી રેન્ટલ રજીસ્ટર
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action Controls -->
+      <div class="flex items-center gap-2">
+        <button onclick="openSettingsModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold transition shadow-sm flex items-center gap-2" title="કંપની અને વાઉચર સેટિંગ્સ બદલો">
+          <i class="fa-solid fa-sliders text-orange-400"></i>
+          <span class="hidden sm:inline">સેટિંગ્સ (Settings)</span>
+        </button>
+
+        <button onclick="downloadBackup()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl text-xs font-semibold transition" title="બેકઅપ ડાઉનલોડ">
+          <i class="fa-solid fa-cloud-arrow-down text-sky-400"></i> <span class="hidden md:inline">બેકઅપ</span>
+        </button>
+
+        <label class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-xl text-xs font-semibold cursor-pointer transition flex items-center gap-1.5" title="બેકઅપ રિસ્ટોર">
+          <i class="fa-solid fa-cloud-arrow-up text-emerald-400"></i> <span class="hidden md:inline">અપલોડ</span>
+          <input type="file" accept=".json,.html" onchange="uploadBackup(event)" class="hidden">
+        </label>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-[1560px] mx-auto w-full p-3 sm:p-6 space-y-6">
+
+    <!-- KPI Summary Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Total Spend -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+        <div class="flex justify-between items-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+          <span>કુલ ચોખ્ખો સંયુક્ત ખર્ચ</span>
+          <i class="fa-solid fa-wallet text-slate-600 text-base"></i>
+        </div>
+        <p id="kpiTotal" class="text-3xl font-black text-white font-mono-num tracking-tight">₹0</p>
+        <div class="mt-3 flex items-center text-xs font-semibold text-slate-400 bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700/60 w-fit">
+          <span class="text-orange-400 font-bold mr-1">50% ટાર્ગેટ:</span>
+          <span id="kpiTarget" class="text-white font-mono-num">₹0</span>
+        </div>
+      </div>
+
+      <!-- Partner 1 -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm border-l-4 border-l-sky-500">
+        <div class="flex justify-between items-center text-xs font-bold text-sky-400 uppercase tracking-wider mb-2">
+          <span id="kpiP1Name">કરણ (Karan) • કુલ યોગદાન</span>
+          <i class="fa-solid fa-user-check text-sky-500/40 text-base"></i>
+        </div>
+        <p id="kpiKaran" class="text-3xl font-black text-white font-mono-num tracking-tight">₹0</p>
+        <p id="kpiKaranCount" class="text-xs text-slate-400 mt-2.5 font-medium">0 વાઉચર્સ નોંધાયેલ</p>
+      </div>
+
+      <!-- Partner 2 -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm border-l-4 border-l-orange-500">
+        <div class="flex justify-between items-center text-xs font-bold text-orange-400 uppercase tracking-wider mb-2">
+          <span id="kpiP2Name">જયેશભાઈ (Jayesh) • કુલ યોગદાન</span>
+          <i class="fa-solid fa-user-check text-orange-500/40 text-base"></i>
+        </div>
+        <p id="kpiJayesh" class="text-3xl font-black text-white font-mono-num tracking-tight">₹0</p>
+        <p id="kpiJayeshCount" class="text-xs text-slate-400 mt-2.5 font-medium">0 વાઉચર્સ નોંધાયેલ</p>
+      </div>
+
+      <!-- 50/50 Settlement Status -->
+      <div id="kpiSettlementCard" class="bg-slate-900 border border-emerald-500/30 rounded-2xl p-5 shadow-sm relative flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block mb-1">50/50 પતાવટ સ્થિતિ (Live Status)</span>
+          <div id="kpiSettlementText" class="text-slate-200 mt-1">
+            <p class="text-xl font-black text-emerald-400">હિસાબ સરભર છે</p>
+            <p class="text-xs text-slate-400 mt-0.5">કોઈએ કોઈને ચૂકવવાના નથી.</p>
+          </div>
+        </div>
+        <button id="btnQuickSettle" onclick="openSettlementModal()" class="hidden mt-3 self-end bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition shadow items-center gap-1.5">
+          <i class="fa-solid fa-handshake"></i> Settle Now
+        </button>
+      </div>
+
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+      
+      <!-- Tab Headers -->
+      <div class="px-4 sm:px-6 pt-3.5 pb-0 bg-slate-950/60 border-b border-slate-800 flex flex-wrap justify-between items-center gap-3 no-print">
+        <div class="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
+          
+          <button id="tabMasterBtn" onclick="switchView('master')" class="px-4 py-3 font-bold text-xs sm:text-sm rounded-t-xl transition-all border-b-2 border-orange-500 text-orange-400 bg-slate-900 shadow-sm flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-table-list"></i> માસ્ટર ખાતાવહી (Master Ledger)
+          </button>
+
+          <button id="tabPartiesBtn" onclick="switchView('parties')" class="px-4 py-3 font-bold text-xs sm:text-sm rounded-t-xl transition-all border-b-2 border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-building-wheat text-amber-400"></i> કંપની ભાડું & કરાર (Contracts & Rent)
+            <span id="partyBadgeCount" class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full font-black border border-amber-500/30">0</span>
+          </button>
+
+          <button id="tabPartsBtn" onclick="switchView('parts')" class="px-4 py-3 font-bold text-xs sm:text-sm rounded-t-xl transition-all border-b-2 border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-screwdriver-wrench text-emerald-400"></i> સ્પેરપાર્ટ્સ રજીસ્ટર (Spare Parts)
+            <span id="partsBadgeCount" class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-black border border-emerald-500/30">0</span>
+          </button>
+
+          <button id="tabSalaryBtn" onclick="switchView('salaries')" class="px-4 py-3 font-bold text-xs sm:text-sm rounded-t-xl transition-all border-b-2 border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-id-card-clip text-sky-400"></i> ઓપરેટર પગાર સ્લિપ (Operator Slips)
+            <span id="salaryBadgeCount" class="text-[10px] bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded-full font-black border border-sky-500/30">0</span>
+          </button>
+
+        </div>
+
+        <div class="pb-2 text-[11px] text-slate-400 font-semibold hidden lg:flex items-center gap-2">
+          <span class="bg-emerald-950/80 text-emerald-300 border border-emerald-500/30 px-2.5 py-1 rounded-lg flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-halved text-emerald-400"></i> સ્પેરપાર્ટ્સ ભાડાથી 100% સ્વતંત્ર છે
+          </span>
+        </div>
+      </div>
+
+      <!-- Action Toolbar (Shows ONLY context-relevant add buttons per tab) -->
+      <div class="p-4 bg-slate-900 border-b border-slate-800/80 flex flex-col lg:flex-row justify-between items-center gap-4 no-print">
+        
+        <div id="tabActionContainer" class="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+          <!-- Dynamically populated via updateTabActionButtons() -->
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto justify-between lg:justify-end">
+          <div class="relative flex-grow sm:flex-grow-0 sm:w-64">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-xs"></i>
+            <input type="text" id="searchInput" oninput="renderAll()" placeholder="શોધો (Company, Part, Slip...)" class="w-full pl-8 pr-3 py-2 bg-slate-950/80 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:ring-2 focus:ring-orange-500 outline-none transition">
+          </div>
+
+          <button onclick="shareWhatsApp()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+          </button>
+
+          <button onclick="exportCSV()" class="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl transition" title="Export Excel CSV">
+            <i class="fa-solid fa-file-csv text-emerald-400 text-base"></i>
+          </button>
+
+          <button onclick="window.print()" class="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl transition" title="પ્રિન્ટ PDF">
+            <i class="fa-solid fa-print text-base"></i>
+          </button>
+
+          <button onclick="openSettingsModal()" class="p-2.5 bg-slate-800 hover:bg-slate-700 text-orange-400 border border-slate-700 rounded-xl transition" title="કંપની & બેંક સેટિંગ્સ">
+            <i class="fa-solid fa-gear text-base"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <div id="masterLedgerView" class="bg-slate-900">
+        <div class="px-6 py-3 border-b border-slate-800 flex justify-between items-center text-xs text-slate-400">
+          <div class="flex items-center gap-2">
+            <span class="font-bold uppercase tracking-wider text-slate-300">માસ્ટર વાઉચર યાદી (50/50 Audit Register)</span>
+            <span id="recordCount" class="bg-slate-800 px-2 py-0.5 rounded text-white font-mono-num text-[11px] font-bold">0 Vouchers</span>
+          </div>
+          <span class="hidden sm:inline">દરેક વાઉચર પર ક્લિક કરીને સત્તાવાર A4 રસીદ / વાઉચર પ્રિન્ટ કરો</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-950/80 border-b border-slate-800 text-[11px] uppercase tracking-wider text-slate-400 font-bold">
+                <th class="px-5 py-3.5">તારીખ & વિગત (Details)</th>
+                <th class="px-5 py-3.5">પ્રકાર & ચુકવણી</th>
+                <th class="px-5 py-3.5 text-right">રકમ (Amount)</th>
+                <th class="px-5 py-3.5 text-right" id="thP1Header">કરણ નેટ</th>
+                <th class="px-5 py-3.5 text-right" id="thP2Header">જયેશ નેટ</th>
+                <th class="px-5 py-3.5 text-center">પુરાવો / રસીદ</th>
+                <th class="px-5 py-3.5 text-center">સત્તાવાર વાઉચર</th>
+                <th class="px-5 py-3.5 text-center no-print">એક્શન</th>
+              </tr>
+            </thead>
+            <tbody id="ledgerBody" class="divide-y divide-slate-800/60 font-sans">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+          <div id="emptyState" class="hidden py-16 text-center">
+            <div class="w-14 h-14 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 mx-auto mb-3 text-xl">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+            <p class="text-sm font-bold text-slate-300">કોઈ વાઉચર એન્ટ્રી મળી નથી</p>
+            <p class="text-xs text-slate-500 mt-1">ઉપરના બટનો દ્વારા નવું વાઉચર, ભાડા કરાર અથવા સ્પેરપાર્ટ્સ નોંધો.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="partyLedgerView" class="hidden p-6 space-y-6 bg-slate-900">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-amber-950/40 border border-amber-500/30 p-4 rounded-2xl">
+          <div>
+            <h3 class="font-bold text-sm text-amber-300 flex items-center gap-2">
+              <i class="fa-solid fa-file-signature text-amber-400"></i> ગ્રાહક મશીન ભાડા કરાર & મળેલ ભાડું (Rent Installments Ledger)
+            </h3>
+            <p class="text-xs text-slate-300 mt-0.5">
+              ગ્રાહક સાથે થયેલ મશીન ભાડા કરાર અને મળેલ ભાડા હપ્તા. <strong>(નોંધ: સ્પેરપાર્ટ્સ ખર્ચ આમાં સામેલ નથી).</strong>
+            </p>
+          </div>
+          <button onclick="openNewContractModal()" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black rounded-xl shadow whitespace-nowrap flex items-center gap-1.5">
+            <i class="fa-solid fa-plus"></i> + નવો કરાર ઉમેરો
+          </button>
+        </div>
+
+        <div id="partyGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Dynamically populated cards -->
+        </div>
+
+        <div id="partyEmptyState" class="hidden py-16 text-center bg-slate-950/50 rounded-2xl border border-dashed border-slate-800">
+          <i class="fa-regular fa-building text-3xl text-slate-600 mb-2"></i>
+          <p class="text-sm font-bold text-slate-400">હજી સુધી કોઈ ભાડા કરાર ઉમેરાયો નથી</p>
+          <p class="text-xs text-slate-500 mt-1">"+ નવો કરાર ઉમેરો" બટન વડે ક્લાયન્ટ કરાર ઉમેરો.</p>
+        </div>
+      </div>
+
+      <div id="partsLedgerView" class="hidden p-6 space-y-6 bg-slate-900">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-emerald-950/40 border border-emerald-500/30 p-4 rounded-2xl">
+          <div>
+            <h3 class="font-bold text-sm text-emerald-300 flex items-center gap-2">
+              <i class="fa-solid fa-boxes-stacked text-emerald-400"></i> સ્પેરપાર્ટ્સ & મેન્ટેનન્સ રજીસ્ટર (Independent Spares Inventory)
+            </h3>
+            <p class="text-xs text-slate-300 mt-0.5">
+              તમામ સ્પેરપાર્ટ્સ, ઓઇલ, ફિલ્ટર, હોઝ પાઇપ, ટ્રાન્સપોર્ટ અને લેબર ચાર્જનો અલગ હિસાબ. ક્લાયન્ટ ભાડા કરારથી સંપૂર્ણ સ્વતંત્ર.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="exportPartsCSV()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-500/30 text-xs font-bold rounded-xl shadow transition flex items-center gap-1.5">
+              <i class="fa-solid fa-file-csv"></i> સ્પેરપાર્ટ્સ Excel
+            </button>
+            <button onclick="openMaintenanceModal()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow whitespace-nowrap flex items-center gap-1.5">
+              <i class="fa-solid fa-plus"></i> + સ્પેરપાર્ટ્સ / મેન્ટેનન્સ ઉમેરો
+            </button>
+          </div>
+        </div>
+
+        <!-- Spare Parts KPI Sub-strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold">કુલ સ્પેરપાર્ટ્સ ખર્ચ</span>
+            <p id="spKpiTotal" class="text-lg font-black text-emerald-400 font-mono-num mt-0.5">₹0</p>
+            <span id="spKpiCount" class="text-[10px] text-slate-500">0 આઇટમ્સ</span>
+          </div>
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+            <span id="spP1Label" class="text-sky-400 block text-[10px] uppercase font-bold">કરણ દ્વારા ખરીદેલ</span>
+            <p id="spKpiKaran" class="text-lg font-black text-white font-mono-num mt-0.5">₹0</p>
+          </div>
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+            <span id="spP2Label" class="text-orange-400 block text-[10px] uppercase font-bold">જયેશભાઈ દ્વારા ખરીદેલ</span>
+            <p id="spKpiJayesh" class="text-lg font-black text-white font-mono-num mt-0.5">₹0</p>
+          </div>
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+            <span class="text-slate-400 block text-[10px] uppercase font-bold">કુલ વર્ક ઓર્ડર્સ</span>
+            <p id="spKpiOrders" class="text-lg font-black text-amber-400 font-mono-num mt-0.5">0 ઓર્ડર</p>
+          </div>
+        </div>
+
+        <!-- Filter bar for Spare Parts -->
+        <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-950/70 p-3 rounded-xl border border-slate-800">
+          <div class="flex items-center gap-2 flex-grow sm:max-w-md">
+            <i class="fa-solid fa-filter text-slate-500 text-xs"></i>
+            <input type="text" id="partFilterInput" oninput="renderPartsGrid()" placeholder="પાર્ટનું નામ, મશીન અથવા દુકાનથી ફિલ્ટર કરો..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 outline-none">
+          </div>
+          <div class="flex items-center gap-2">
+            <select id="partPayerFilter" onchange="renderPartsGrid()" class="bg-slate-900 border border-slate-700 text-xs text-slate-200 px-3 py-1.5 rounded-lg outline-none">
+              <option value="ALL">તમામ પાર્ટનર્સ (All)</option>
+              <option value="Karan">કરણ (Partner 1)</option>
+              <option value="Jayeshbhai">જયેશભાઈ (Partner 2)</option>
+            </select>
+            <span id="partsCountBadge" class="text-[11px] font-mono-num bg-slate-800 px-2 py-1 rounded text-slate-300 font-bold">0 આઇટમ્સ</span>
+          </div>
+        </div>
+
+        <!-- Detailed Parts Table -->
+        <div class="border border-slate-800 rounded-2xl overflow-hidden bg-slate-950/50">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead class="bg-slate-950 text-slate-400 uppercase font-bold border-b border-slate-800 text-[10px]">
+                <tr>
+                  <th class="px-4 py-3">તારીખ</th>
+                  <th class="px-4 py-3">સ્પેરપાર્ટ નામ / વિગત</th>
+                  <th class="px-4 py-3">મશીન / એસેટ</th>
+                  <th class="px-4 py-3">દુકાન / વેન્ડર</th>
+                  <th class="px-4 py-3 text-center">જથ્થો (Qty)</th>
+                  <th class="px-4 py-3 text-right">ભાવ (Rate)</th>
+                  <th class="px-4 py-3 text-right">કુલ રકમ</th>
+                  <th class="px-4 py-3">ચૂકવનાર</th>
+                  <th class="px-4 py-3 text-center">પુરાવો</th>
+                  <th class="px-4 py-3 text-center no-print">એક્શન (સુધારો / સ્લિપ / ડિલીટ)</th>
+                </tr>
+              </thead>
+              <tbody id="partsTableBody" class="divide-y divide-slate-800 font-sans">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="salaryLedgerView" class="hidden p-6 space-y-6 bg-slate-900">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-sky-950/40 border border-sky-500/30 p-4 rounded-2xl">
+          <div>
+            <h3 class="font-bold text-sm text-sky-300 flex items-center gap-2">
+              <i class="fa-solid fa-id-card-clip text-sky-400"></i> મશીન ઓપરેટર & ડ્રાઇવર પગાર રજીસ્ટર (ADRINO Payslips)
+            </h3>
+            <p class="text-xs text-slate-300 mt-0.5">
+              ઓપરેટર હાજરી, માસિક પગાર, સાઇટ ખોરાક ભથ્થું (બટ્ટા) ગણીને 50/50 ખર્ચમાં ઓટો-પોસ્ટ કરો.
+            </p>
+          </div>
+          <button onclick="openSalarySlipModal()" class="px-4 py-2 bg-sky-700 hover:bg-sky-600 text-white text-xs font-bold rounded-xl shadow whitespace-nowrap flex items-center gap-1.5">
+            <i class="fa-solid fa-plus"></i> + ઓપરેટર પગાર સ્લિપ ઉમેરો
+          </button>
+        </div>
+
+        <div id="salaryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Injected via JS -->
+        </div>
+
+        <div id="salaryEmptyState" class="hidden py-16 text-center bg-slate-950/50 rounded-2xl border border-dashed border-slate-800">
+          <i class="fa-solid fa-user-tie text-3xl text-slate-600 mb-2"></i>
+          <p class="text-sm font-bold text-slate-400">હજી સુધી કોઈ ઓપરેટર પગાર સ્લિપ ઉમેરાઈ નથી</p>
+          <p class="text-xs text-slate-500 mt-1">"+ ઓપરેટર પગાર સ્લિપ ઉમેરો" બટન વડે નવી સ્લિપ બનાવો.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <div id="settingsModal" onclick="if(event.target===this)closeModals()" class="fixed inset-0 bg-slate-950/80 modal-backdrop hidden z-50 overflow-y-auto">
+    <div class="min-h-screen px-4 text-center flex items-center justify-center py-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full text-left shadow-2xl relative overflow-hidden" onclick="event.stopPropagation()">
+        
+        <div class="bg-slate-950 px-6 py-4 flex justify-between items-center border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <div class="bg-orange-500 text-slate-950 p-2 rounded-xl font-black text-sm">
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-sm">એન્ટરપ્રાઇઝ અને વાઉચર સેટિંગ્સ (APP CONFIGURATION)</h3>
+              <p class="text-[11px] text-slate-400">કંપની વિગત, ભાગીદાર નામ, બેંક એકાઉન્ટ અને ડિફોલ્ટ મશીનરી</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeModals()" class="text-slate-400 hover:text-white p-1 text-lg">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form id="settingsForm" onsubmit="saveSettings(event)" class="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
+          
+          <!-- Company Info -->
+          <div class="space-y-3">
+            <span class="text-xs font-black uppercase text-orange-400 tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-building"></i> ૧. કંપની / પેઢીની સત્તાવાર વિગત
+            </span>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">કંપનીનું નામ (Company Name) *</label>
+                <input type="text" id="cfg_companyName" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-bold outline-none focus:ring-2 focus:ring-orange-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">ટેગલાઇન / વર્ણન</label>
+                <input type="text" id="cfg_companyTagline" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-orange-500">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">સરનામું (Official Address) *</label>
+              <input type="text" id="cfg_companyAddress" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none focus:ring-2 focus:ring-orange-500">
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">ફોન નંબર</label>
+                <input type="text" id="cfg_companyPhone" class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-mono-num outline-none">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">ઈમેઈલ આઈડી</label>
+                <input type="email" id="cfg_companyEmail" class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">GSTIN નંબર</label>
+                <input type="text" id="cfg_gstin" class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-mono-num uppercase outline-none">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">PAN નંબર</label>
+                <input type="text" id="cfg_pan" class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-mono-num uppercase outline-none">
+              </div>
+            </div>
+          </div>
+
+          <!-- Partner Profiles -->
+          <div class="pt-3 border-t border-slate-800 space-y-3">
+            <span class="text-xs font-black uppercase text-sky-400 tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-users"></i> ૨. 50/50 ભાગીદારોના નામ (Partners)
+            </span>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">ભાગીદાર ૧ (Partner A Name) *</label>
+                <input type="text" id="cfg_partner1" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-bold outline-none">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">ભાગીદાર ૨ (Partner B Name) *</label>
+                <input type="text" id="cfg_partner2" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-bold outline-none">
+              </div>
+            </div>
+          </div>
+
+          <!-- Machinery Fleet Profile -->
+          <div class="pt-3 border-t border-slate-800 space-y-3">
+            <span class="text-xs font-black uppercase text-amber-400 tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-truck-front"></i> ૩. ડિફોલ્ટ મશીનરી વિગત (Primary Equipment)
+            </span>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">મશીન / એસેટ નામ</label>
+                <input type="text" id="cfg_defaultMachine" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">વાહન / આરટીઓ નંબર</label>
+                <input type="text" id="cfg_defaultReg" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-mono-num outline-none">
+              </div>
+            </div>
+          </div>
+
+          <!-- Enterprise Bank Coordinates -->
+          <div class="pt-3 border-t border-slate-800 space-y-3">
+            <span class="text-xs font-black uppercase text-emerald-400 tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-building-columns"></i> ૪. બેંક ખાતું અને UPI વિગત (વાઉચર માટે)
+            </span>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">બેંકનું નામ</label>
+                <input type="text" id="cfg_bankName" class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">ખાતા નંબર (A/C)</label>
+                <input type="text" id="cfg_bankAccount" class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-mono-num outline-none">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">IFSC કોડ</label>
+                <input type="text" id="cfg_bankIfsc" class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-mono-num uppercase outline-none">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">UPI ID</label>
+                <input type="text" id="cfg_bankUpi" class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-mono-num outline-none">
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-800 flex gap-3">
+            <button type="button" onclick="closeModals()" class="flex-1 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition">
+              રદ કરો
+            </button>
+            <button type="submit" class="flex-1 px-4 py-2.5 bg-orange-600 hover:bg-orange-500 text-white rounded-xl text-xs font-bold shadow transition flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-floppy-disk"></i> સેટિંગ્સ સેવ કરો
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="voucherModal" onclick="if(event.target===this)closeModals()" class="fixed inset-0 bg-slate-950/80 modal-backdrop hidden z-50 overflow-y-auto">
+    <div class="min-h-screen px-4 text-center flex items-center justify-center py-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full text-left shadow-2xl relative overflow-hidden" onclick="event.stopPropagation()">
+        
+        <div class="bg-slate-950 px-6 py-4 flex justify-between items-center border-b border-slate-800">
+          <h3 id="modalTitle" class="font-bold text-white text-sm flex items-center gap-2">
+            <span class="bg-orange-600 text-white px-2 py-0.5 rounded text-[10px] font-black uppercase">VOUCHER</span>
+            50/50 વાઉચર એન્ટ્રી બનાવો
+          </h3>
+          <button type="button" onclick="closeModals()" class="text-slate-400 hover:text-white p-1 text-lg">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form id="voucherForm" onsubmit="saveVoucher(event)" class="p-6 space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">વાઉચર પ્રકાર *</label>
+              <select id="v_type" onchange="onTypeChange()" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs font-bold text-orange-400 outline-none">
+                <option value="Expense">50/50 સંયુક્ત ખર્ચ (Expense)</option>
+                <option value="Income">50/50 સંયુક્ત આવક (Income / Rent)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">તારીખ *</label>
+              <input type="date" id="v_date" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">એકાઉન્ટ કેટેગરી *</label>
+            <select id="v_category" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+              <option value="Machinery Rent & Hiring Income">Machinery Rent & Hiring Income (મશીન ભાડું)</option>
+              <option value="Client Payment & Advance">Client Payment & Advance (ક્લાયન્ટ ચુકવણી)</option>
+              <option value="Operator & Driver Salary / Site Batta">Operator & Driver Salary / Site Batta (ઓપરેટર પગાર)</option>
+              <option value="SBI Loan Interest & EMI">SBI Loan Interest & EMI (બેંક લોન / EMI)</option>
+              <option value="Machinery Purchase / Capital">Machinery Purchase / Capital (મશીન મૂડી રોકાણ)</option>
+              <option value="Diesel & Bulk Fuel">Diesel & Bulk Fuel (ડીઝલ)</option>
+              <option value="Site Travel, Rail Ticket & Food">Site Travel, Rail Ticket & Food (મુસાફરી)</option>
+              <option value="Transportation & Crane Mobilization">Transportation & Crane Mobilization (પરિવહન)</option>
+              <option value="Office & Yard Expenses">Office & Yard Expenses (ઓફિસ ખર્ચ)</option>
+              <option value="Other Operations">Other Operations (અન્ય)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">પેઢી / ક્લાયન્ટ / વ્યક્તિનું નામ</label>
+            <input type="text" id="v_party" list="partyDataList" placeholder="e.g. Ggg, L&T, Amreli Site..." class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+            <datalist id="partyDataList"></datalist>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">વિગત / વર્ણન (Description) *</label>
+            <input type="text" id="v_desc" placeholder="દા.ત. Ajax ARGO 4000 નિભાવ, ટાયર, ડીઝલ..." required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800">
+            <div>
+              <label class="block text-[11px] font-bold text-orange-400 uppercase mb-1">વાઉચર રકમ (₹) *</label>
+              <input type="number" id="v_amount" step="0.01" min="0.01" placeholder="0.00" oninput="updateLiveAllocation()" required class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm font-black text-white font-mono-num outline-none">
+            </div>
+            <div>
+              <span class="block text-[10px] font-bold text-slate-400 uppercase mb-1">50% ભાગીદાર હિસ્સો:</span>
+              <div id="v_split" class="font-black text-orange-400 text-lg font-mono-num mt-1">₹0.00</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label id="lblPayee" class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">ચૂકવનાર ભાગીદાર *</label>
+              <select id="v_payee" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs font-bold text-white outline-none">
+                <option value="Karan">કરણ (Partner 1)</option>
+                <option value="Jayeshbhai">જયેશભાઈ (Partner 2)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">ચુકવણી મોડ *</label>
+              <select id="v_method" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                <option value="Bank Transfer (NEFT/RTGS)">Bank Transfer (NEFT/RTGS)</option>
+                <option value="UPI">UPI Digital Payment</option>
+                <option value="Cash">Cash (રોકડ)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Receipt Proof Upload -->
+          <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3 space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-slate-300">બિલ / રસીદ ફોટો (Receipt Proof)</span>
+              <span class="text-[10px] text-slate-500">JPG, PNG, PDF</span>
+            </div>
+            <div id="receiptUploadBox" class="border-2 border-dashed border-slate-700 hover:border-orange-500 rounded-xl p-3 text-center bg-slate-900 cursor-pointer transition">
+              <input type="file" id="v_receipt" accept="image/*,application/pdf" class="hidden" onchange="handleReceiptFileSelect(this)">
+              <label for="v_receipt" class="cursor-pointer flex flex-col items-center justify-center">
+                <i class="fa-solid fa-cloud-arrow-up text-orange-400 text-xl mb-1"></i>
+                <span class="text-xs font-bold text-slate-300">ફોટો અપલોડ કરવા ક્લિક કરો</span>
+              </label>
+            </div>
+            <div id="receiptPreviewBox" class="hidden flex items-center justify-between bg-slate-900 border border-slate-700 p-2 rounded-xl">
+              <div class="flex items-center gap-2 overflow-hidden">
+                <div id="receiptThumbContainer" class="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-image text-slate-400"></i>
+                </div>
+                <p id="receiptFileName" class="text-xs font-bold text-slate-200 truncate">photo.jpg</p>
+              </div>
+              <button type="button" onclick="removeReceiptPhoto()" class="text-rose-400 hover:text-rose-300 text-xs px-2 py-1 font-bold">કાઢી નાખો</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">ઓડિટ શેરો / ટ્રાન્ઝેક્શન UTR</label>
+            <input type="text" id="v_remarks" placeholder="UTR Number, Cheque Ref..." class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+          </div>
+
+          <div class="pt-2 flex gap-3">
+            <button type="button" onclick="closeModals()" class="flex-1 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition">
+              રદ કરો
+            </button>
+            <button type="submit" class="flex-1 px-4 py-2.5 bg-orange-600 hover:bg-orange-500 text-white rounded-xl text-xs font-bold shadow transition">
+              વાઉચર સેવ કરો
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="maintenanceModal" onclick="if(event.target===this)closeModals()" class="fixed inset-0 bg-slate-950/80 modal-backdrop hidden z-50 overflow-y-auto">
+    <div class="min-h-screen px-4 text-center flex items-center justify-center py-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full text-left shadow-2xl relative overflow-hidden" onclick="event.stopPropagation()">
+        
+        <div class="bg-emerald-950 px-6 py-4 flex justify-between items-center border-b border-emerald-500/30">
+          <div class="flex items-center gap-2.5">
+            <div class="bg-emerald-500 text-slate-950 p-2 rounded-xl font-black text-sm">
+              <i class="fa-solid fa-wrench"></i>
+            </div>
+            <div>
+              <h3 id="maintenanceModalTitle" class="font-bold text-sm text-white">મશીનરી સ્પેરપાર્ટ્સ & નિભાવ ઓર્ડર (PARTS WORK ORDER)</h3>
+              <p class="text-[11px] text-emerald-200">પાર્ટ્સ આઇટમ્સ, ટ્રાન્સપોર્ટ અને લેબર (કંપની ભાડાથી સંપૂર્ણ સ્વતંત્ર)</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeModals()" class="text-slate-400 hover:text-white p-1 text-lg">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form id="maintenanceForm" onsubmit="saveMaintenanceEntry(event)" class="p-6 space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">તારીખ *</label>
+              <input type="date" id="m_date" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">મશીન / વાહન વિગત *</label>
+              <input type="text" id="m_machine" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-bold outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">સ્પેરપાર્ટ્સ દુકાન / વેન્ડર નામ</label>
+              <input type="text" id="m_vendor" placeholder="દા.ત. શિવ શક્તિ ઓટો, ભાવનગર સ્પાર્સ..." class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">ચૂકવનાર ભાગીદાર *</label>
+              <select id="m_payer" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs font-bold text-white outline-none">
+                <option value="Karan">કરણ (Partner 1)</option>
+                <option value="Jayeshbhai">જયેશભાઈ (Partner 2)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Itemized Spare Parts List -->
+          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold text-emerald-400 uppercase flex items-center gap-1.5">
+                <i class="fa-solid fa-boxes-stacked"></i> સ્પેરપાર્ટ્સ વિગતવાર આઇટમ્સ (Itemized Parts)
+              </span>
+              <button type="button" onclick="addMaintenancePartRow()" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-1">
+                <i class="fa-solid fa-plus"></i> + પાર્ટ્સ ઉમેરો
+              </button>
+            </div>
+            <div id="m_parts_container" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+          </div>
+
+          <!-- Transport & Labour -->
+          <div class="grid grid-cols-2 gap-4 bg-emerald-950/20 p-3 rounded-2xl border border-emerald-500/20">
+            <div>
+              <label class="block text-[11px] font-bold text-emerald-300 uppercase mb-1">ટ્રાન્સપોર્ટ / કુરિયર ભાડું (₹)</label>
+              <input type="number" id="m_transport" value="0" min="0" oninput="calculateMaintenanceTotal()" class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white font-mono-num outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-emerald-300 uppercase mb-1">મિકેનિક લેબર મજૂરી (₹)</label>
+              <input type="number" id="m_labour" value="0" min="0" oninput="calculateMaintenanceTotal()" class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white font-mono-num outline-none">
+            </div>
+          </div>
+
+          <!-- Live Total -->
+          <div class="bg-emerald-950 p-3.5 rounded-2xl border border-emerald-500/30 flex justify-between items-center">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-emerald-300">કુલ ચુકવણી (GRAND TOTAL)</span>
+              <p id="m_total_preview" class="text-2xl font-black text-white font-mono-num">₹0.00</p>
+            </div>
+            <div class="text-right">
+              <span class="text-[10px] font-bold text-emerald-300">દરેક પાર્ટનરનો 50% હિસ્સો:</span>
+              <p id="m_split_preview" class="text-base font-bold text-amber-300 font-mono-num">₹0.00</p>
+            </div>
+          </div>
+
+          <!-- Attached Photo Proofs with Upload & Delete -->
+          <div class="grid grid-cols-2 gap-3">
+            <div class="border border-dashed border-slate-700 rounded-2xl p-3 bg-slate-950/60 text-center">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-[11px] font-bold text-slate-300 block">૧. પાર્ટ્સનો ફોટો</span>
+                <span id="m_part_photo_lbl" class="text-[10px] text-slate-500">વૈકલ્પિક</span>
+              </div>
+              <input type="file" id="m_part_photo" accept="image/*" class="hidden" onchange="handleMaintenancePhotoSelect(this, 'part')">
+              <label for="m_part_photo" id="m_part_upload_btn" class="block cursor-pointer py-1.5 bg-slate-900 hover:bg-slate-800 rounded-lg text-xs text-slate-300 font-semibold border border-slate-700">
+                <i class="fa-solid fa-camera text-emerald-400 mr-1"></i> પાર્ટ્સ ફોટો પસંદ કરો
+              </label>
+              <div id="m_part_preview_wrap" class="hidden mt-2 p-2 bg-slate-900 rounded-xl border border-slate-700 flex flex-col items-center gap-1.5">
+                <img id="m_part_preview_img" class="h-16 w-full rounded object-contain border border-slate-800" alt="part">
+                <button type="button" onclick="clearMaintenancePhoto('part')" class="px-2.5 py-1 bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-500/30 text-[10px] font-bold rounded-lg transition flex items-center gap-1">
+                  <i class="fa-solid fa-trash-can"></i> ફોટો કાઢી નાખો (Delete)
+                </button>
+              </div>
+            </div>
+
+            <div class="border border-dashed border-slate-700 rounded-2xl p-3 bg-slate-950/60 text-center">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-[11px] font-bold text-slate-300 block">૨. દુકાનનું બિલ / રસીદ</span>
+                <span id="m_bill_photo_lbl" class="text-[10px] text-slate-500">વૈકલ્પિક</span>
+              </div>
+              <input type="file" id="m_bill_photo" accept="image/*" class="hidden" onchange="handleMaintenancePhotoSelect(this, 'bill')">
+              <label for="m_bill_photo" id="m_bill_upload_btn" class="block cursor-pointer py-1.5 bg-slate-900 hover:bg-slate-800 rounded-lg text-xs text-slate-300 font-semibold border border-slate-700">
+                <i class="fa-solid fa-receipt text-emerald-400 mr-1"></i> બિલ ફોટો પસંદ કરો
+              </label>
+              <div id="m_bill_preview_wrap" class="hidden mt-2 p-2 bg-slate-900 rounded-xl border border-slate-700 flex flex-col items-center gap-1.5">
+                <img id="m_bill_preview_img" class="h-16 w-full rounded object-contain border border-slate-800" alt="bill">
+                <button type="button" onclick="clearMaintenancePhoto('bill')" class="px-2.5 py-1 bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-500/30 text-[10px] font-bold rounded-lg transition flex items-center gap-1">
+                  <i class="fa-solid fa-trash-can"></i> બિલ કાઢી નાખો (Delete)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2 flex gap-3">
+            <button type="button" onclick="closeModals()" class="flex-1 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition">
+              રદ કરો
+            </button>
+            <button type="submit" id="btnSaveMaintenanceSubmit" class="flex-1 px-4 py-2.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold shadow transition">
+              સ્પેરપાર્ટ્સ ખર્ચ સેવ કરો
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="contractModal" onclick="if(event.target===this)closeModals()" class="fixed inset-0 bg-slate-950/80 modal-backdrop hidden z-50 overflow-y-auto">
+    <div class="min-h-screen px-4 text-center flex items-center justify-center py-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full text-left shadow-2xl relative overflow-hidden" onclick="event.stopPropagation()">
+        
+        <div class="bg-amber-950 px-6 py-4 flex justify-between items-center border-b border-amber-500/30">
+          <div class="flex items-center gap-2.5">
+            <div class="bg-amber-500 text-slate-950 p-2 rounded-xl font-black text-sm">ADRINO</div>
+            <div>
+              <h3 class="font-bold text-sm text-white">મશીનરી ભાડા કરારનામું (EQUIPMENT RENTAL CONTRACT)</h3>
+              <p class="text-[11px] text-amber-200">સત્તાવાર કરાર, એડવાન્સ સિક્યોરિટી અને માસિક ભાડું</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeModals()" class="text-slate-400 hover:text-white p-1 text-lg">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form id="contractForm" onsubmit="saveContract(event)" class="p-6 space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">કરાર સંદર્ભ ક્રમાંક (Ref No.) *</label>
+              <input type="text" id="c_ref" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-mono-num font-bold outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">કરાર તારીખ *</label>
+              <input type="date" id="c_date" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">ભાડે રાખનાર ક્લાયન્ટ (Hirer / Company) *</label>
+              <input type="text" id="c_client" placeholder="e.g. Ggg, Patel Infra, L&T" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-bold outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">પ્રોજેક્ટ સાઇટ કાર્યસ્થળ *</label>
+              <input type="text" id="c_site" value="Mahuva, Bhavnagar" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">મશીન સાધન / મોડેલ *</label>
+              <input type="text" id="c_machine" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-bold outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">કરાર મુદત / સમયગાળો</label>
+              <input type="text" id="c_duration" value="૩ માસ (04 ઓક્ટોબર ૨૦૨૬ થી ૩૧ ડિસેમ્બર ૨૦૨૬)" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3 bg-amber-950/30 p-3.5 rounded-2xl border border-amber-500/20">
+            <div>
+              <label class="block text-[10px] font-bold text-amber-300 uppercase mb-1">માસિક ફિક્સ ભાડું (₹) *</label>
+              <input type="number" id="c_monthly_rent" value="185000" required class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white font-mono-num font-bold outline-none">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold text-amber-300 uppercase mb-1">એડવાન્સ ડિપોઝિટ (₹) *</label>
+              <input type="number" id="c_advance" value="55000" required class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-emerald-400 font-mono-num font-bold outline-none">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold text-amber-300 uppercase mb-1">ડિપોઝિટ કોણે લીધી? *</label>
+              <select id="c_receiver" class="w-full px-2 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white font-bold outline-none">
+                <option value="Karan">કરણ (Partner 1)</option>
+                <option value="Jayeshbhai">જયેશભાઈ (Partner 2)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="pt-2 flex gap-3">
+            <button type="button" onclick="closeModals()" class="flex-1 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition">
+              રદ કરો
+            </button>
+            <button type="submit" class="flex-1 px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl text-xs font-black shadow transition">
+              કરાર સેવ કરો & એડવાન્સ જમા
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="salaryModal" onclick="if(event.target===this)closeModals()" class="fixed inset-0 bg-slate-950/80 modal-backdrop hidden z-50 overflow-y-auto">
+    <div class="min-h-screen px-4 text-center flex items-center justify-center py-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full text-left shadow-2xl relative overflow-hidden" onclick="event.stopPropagation()">
+        
+        <div class="bg-sky-950 px-6 py-4 flex justify-between items-center border-b border-sky-500/30">
+          <div class="flex items-center gap-2.5">
+            <div class="bg-sky-500 text-slate-950 p-2 rounded-xl font-black text-xs">ADRINO</div>
+            <div>
+              <h3 class="font-bold text-sm text-white">ઓપરેટર પગાર સ્લિપ (OPERATOR PAYSLIP)</h3>
+              <p class="text-[11px] text-sky-200">વેતન ગણતરી અને 50/50 સંયુક્ત પાર્ટનરશીપ ખર્ચ</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeModals()" class="text-slate-400 hover:text-white p-1 text-lg">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form id="salaryForm" onsubmit="saveSalarySlip(event)" class="p-6 space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">સ્લિપ નંબર *</label>
+              <input type="text" id="sal_no" value="SLIP-202610-761" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-mono-num font-bold outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">તારીખ *</label>
+              <input type="date" id="sal_date" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">ઓપરેટર નામ *</label>
+              <input type="text" id="sal_name" value="Karan Gujariya" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-bold outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">સોંપાયેલ મશીન</label>
+              <input type="text" id="sal_machine" value="ARGO-4001" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">ફિક્સ પગાર</label>
+              <input type="number" id="sal_base" value="28000" oninput="calculateNetSalary()" class="w-full px-2 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white font-mono-num outline-none">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">હાજર શિફ્ટ</label>
+              <input type="number" id="sal_shifts" value="28" oninput="calculateNetSalary()" class="w-full px-2 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white font-mono-num outline-none">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">સાઇટ બટ્ટા (₹)</label>
+              <input type="number" id="sal_batta" value="1400" oninput="calculateNetSalary()" class="w-full px-2 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white font-mono-num outline-none">
+            </div>
+          </div>
+
+          <div class="bg-sky-950/60 p-3.5 rounded-2xl border border-sky-500/30 flex justify-between items-center">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-sky-300">ચોખ્ખો પગાર (NET TAKE-HOME)</span>
+              <p id="sal_net_preview" class="text-2xl font-black text-white font-mono-num">₹27,533.00</p>
+            </div>
+            <div class="text-right">
+              <span class="text-[10px] font-bold text-slate-400">50% ભાગીદાર હિસ્સો:</span>
+              <p id="sal_split_preview" class="text-sm font-bold text-sky-300 font-mono-num">₹13,766.50</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">પગાર ચૂકવનાર *</label>
+              <select id="sal_payer" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-bold outline-none">
+                <option value="Karan">કરણ (Partner 1)</option>
+                <option value="Jayeshbhai">જયેશભાઈ (Partner 2)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">ચુકવણી મોડ *</label>
+              <select id="sal_mode" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                <option value="Bank Transfer (NEFT/RTGS)">Bank Transfer</option>
+                <option value="UPI">UPI Digital Payment</option>
+                <option value="Cash">Cash (રોકડ)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="pt-2 flex gap-3">
+            <button type="button" onclick="closeModals()" class="flex-1 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition">
+              રદ કરો
+            </button>
+            <button type="submit" class="flex-1 px-4 py-2.5 bg-sky-700 hover:bg-sky-600 text-white rounded-xl text-xs font-bold shadow transition">
+              પગાર સ્લિપ સેવ કરો
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="settlementModal" onclick="if(event.target===this)closeModals()" class="fixed inset-0 bg-slate-950/80 modal-backdrop hidden z-50 overflow-y-auto">
+    <div class="min-h-screen px-4 text-center flex items-center justify-center py-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full text-left shadow-2xl relative overflow-hidden" onclick="event.stopPropagation()">
+        
+        <div class="bg-indigo-950 px-6 py-4 flex justify-between items-center border-b border-indigo-500/30">
+          <h3 class="font-bold text-white text-sm flex items-center gap-2">
+            <i class="fa-solid fa-handshake text-indigo-400"></i> RECORD 50/50 SETTLEMENT
+          </h3>
+          <button type="button" onclick="closeModals()" class="text-slate-400 hover:text-white p-1 text-lg">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form id="settlementForm" onsubmit="saveSettlement(event)" class="p-6 space-y-4">
+          <div class="bg-indigo-950/40 p-4 rounded-2xl border border-indigo-500/20 text-center">
+            <p class="text-[10px] font-bold text-indigo-300 uppercase tracking-wider mb-1">લાઈવ પતાવટ ગણતરી</p>
+            <p id="s_guidance" class="text-xs font-bold text-white">ગણતરી ચાલુ છે...</p>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">તારીખ *</label>
+            <input type="date" id="s_date" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">કોણે આપ્યા? (Payer) *</label>
+              <select id="s_payer" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-bold outline-none">
+                <option value="Jayeshbhai">જયેશભાઈ (Partner 2)</option>
+                <option value="Karan">કરણ (Partner 1)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">કોણે લીધા? (Receiver) *</label>
+              <select id="s_receiver" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white font-bold outline-none">
+                <option value="Karan">કરણ (Partner 1)</option>
+                <option value="Jayeshbhai">જયેશભાઈ (Partner 2)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">રકમ (₹) *</label>
+              <input type="number" id="s_amount" step="0.01" min="0.01" required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-sm font-black text-white font-mono-num outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">ચુકવણી મોડ *</label>
+              <select id="s_method" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+                <option value="UPI">UPI Digital Payment</option>
+                <option value="Bank Transfer">Bank Transfer (NEFT/RTGS)</option>
+                <option value="Cash">Cash (રોકડ)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">નોંધ / રિમાર્ક</label>
+            <input type="text" id="s_remarks" placeholder="દા.ત. હિસાબ સરભર પેટે ટ્રાન્સફર" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white outline-none">
+          </div>
+
+          <div class="pt-2 flex gap-3">
+            <button type="button" onclick="closeModals()" class="flex-1 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition">
+              રદ કરો
+            </button>
+            <button type="submit" class="flex-1 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold shadow transition">
+              પતાવટ સેવ કરો
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="voucherA4Modal" onclick="if(event.target===this)closeModals()" class="fixed inset-0 bg-slate-950/90 modal-backdrop hidden z-50 overflow-y-auto">
+    <div class="min-h-screen px-2 sm:px-4 text-center flex items-center justify-center py-6">
+      <div class="bg-white rounded-3xl max-w-4xl w-full text-left shadow-2xl relative overflow-hidden border border-slate-300" onclick="event.stopPropagation()">
+        
+        <!-- Modal Toolbar -->
+        <div class="bg-slate-900 px-6 py-4 flex justify-between items-center text-white no-print">
+          <div class="flex items-center gap-2">
+            <span class="bg-orange-500 text-slate-950 px-2 py-0.5 font-black text-xs rounded">A4 VOUCHER</span>
+            <span class="font-bold text-sm">સત્તાવાર ADRINO પેમેન્ટ વાઉચર / રસીદ દર્શક</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="window.print()" class="px-4 py-1.5 bg-orange-500 hover:bg-orange-600 text-slate-950 font-bold rounded-xl text-xs transition flex items-center gap-1.5 shadow">
+              <i class="fa-solid fa-print"></i> પ્રિન્ટ / PDF ડાઉનલોડ
+            </button>
+            <button type="button" onclick="closeModals()" class="text-slate-400 hover:text-white p-1 text-lg">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Exact A4 Layout Container matching PaymentVoucher_01.pdf reference -->
+        <div id="voucherA4Printable" class="a4-voucher-page p-6 sm:p-10 bg-white text-slate-900 font-sans space-y-4">
+          <!-- Dynamically populated via JS renderA4Voucher(entry) -->
+        </div>
+
+        <div class="bg-slate-100 px-6 py-3 border-t border-slate-200 flex justify-end no-print">
+          <button type="button" onclick="closeModals()" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition">
+            બંધ કરો (Close)
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="quickReceiptModal" onclick="if(event.target===this)closeModals()" class="fixed inset-0 bg-slate-950/90 modal-backdrop hidden z-50 overflow-y-auto">
+    <div class="min-h-screen px-4 text-center flex items-center justify-center py-6">
+      <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-3xl w-full text-left shadow-2xl relative overflow-hidden" onclick="event.stopPropagation()">
+        <div class="bg-slate-950 px-6 py-4 flex justify-between items-center border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded text-[10px] font-black uppercase">PROOF</span>
+            <h3 id="quickReceiptTitle" class="font-bold text-white text-sm">વાઉચર બિલ / રસીદ પુરાવો</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <a id="quickReceiptDownloadBtn" href="#" download="Receipt.jpg" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+              <i class="fa-solid fa-download"></i> ડાઉનલોડ
+            </a>
+            <button type="button" onclick="closeModals()" class="text-slate-400 hover:text-white p-1 text-lg">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+        <div id="quickReceiptBody" class="p-6 flex items-center justify-center min-h-[300px] max-h-[75vh] overflow-auto bg-slate-950">
+          <!-- Dynamic receipt image or pdf iframe -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirmModal" onclick="if(event.target===this)closeConfirmModal()" class="fixed inset-0 bg-slate-950/80 modal-backdrop hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl relative text-left" onclick="event.stopPropagation()">
+      <div class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-xl mb-3 border border-rose-500/30">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h3 id="confirmTitle" class="text-base font-bold text-white mb-1">પુષ્ટિ કરો</h3>
+      <p id="confirmMessage" class="text-xs text-slate-400 mb-6">શું તમે ખરેખર આગળ વધવા માંગો છો?</p>
+      <div class="flex gap-3 justify-end">
+        <button type="button" onclick="closeConfirmModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition">રદ કરો</button>
+        <button type="button" id="confirmAcceptBtn" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold shadow transition">હા, ડિલીટ કરો</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white border border-slate-700 text-xs font-semibold px-4 py-3 rounded-2xl shadow-2xl hidden transition-all duration-300 z-50 flex items-center gap-2">
+    <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+    <span id="toastMsg">સફળતાપૂર્વક સંગ્રહ થયો!</span>
+  </div>
+
+  <script>
+    const DB_NAME = 'AdrinoERP_VoucherDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'vouchers';
+    const CFG_STORE_NAME = 'app_settings';
+
+    let dbInstance = null;
+    let entries = [];
+    let currentView = 'master'; // 'master', 'parties', 'parts', 'salaries'
+    let editingId = null;
+    let editingMaintenanceId = null;
+    let pendingConfirmAction = null;
+
+    // Attached receipt files
+    let pendingReceiptDataUrl = null;
+    let pendingReceiptType = null;
+    let shouldClearExistingReceipt = false;
+
+    // Maintenance pending photos & delete flags
+    let pendingMaintenancePartPhoto = null;
+    let pendingMaintenanceBillPhoto = null;
+    let clearExistingPartPhoto = false;
+    let clearExistingBillPhoto = false;
+
+    // Default Enterprise Settings (Fully Customizable via Settings Button)
+    let appSettings = {
+      companyName: 'ADRINO CONSTRUCTIONS',
+      companyTagline: 'CONCRETE BATCHING, SELF-LOADING MIXERS & EARTHMOVING EQUIPMENT',
+      companyMotto: 'BUILT ON TRUST. ENGINEERED TO LAST.',
+      companyAddress: 'Plot 48, GIDC Industrial Estate, Highway Bypass, Ahmedabad, Gujarat 382445',
+      companyPhone: '+91 98765 43210',
+      companyEmail: 'operations@argoinfrafleet.com',
+      gstin: '24AAACR1234F1Z8',
+      pan: 'AAACR1234F',
+      partner1: 'કરણ (Karan)',
+      partner2: 'જયેશભાઈ (Jayeshbhai)',
+      defaultMachine: 'Ajax Fiori ARGO 4000 (GJ38CC0057)',
+      defaultReg: 'ARGO-4001',
+      bankName: 'HDFC Bank Ltd.',
+      bankAccount: '50200088991122',
+      bankIfsc: 'HDFC0001234',
+      bankUpi: 'argo.heavyfleet@okhdfcbank'
+    };
+
+    const dict = {
+      types: { 'Expense': 'ખર્ચ (Expense)', 'Income': 'આવક / ભાડું (Income)', 'Settlement': '૫૦/૫૦ પતાવટ' }
+    };
+
+    /**
+     * Formats any date string (YYYY-MM-DD or ISO) into standard DD/MM/YYYY
+     */
+    function formatDateDDMMYYYY(dateString) {
+      if (!dateString) return '';
+      if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateString)) return dateString;
+      const parts = dateString.split('T')[0].split('-');
+      if (parts.length === 3) {
+        return `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+      const d = new Date(dateString);
+      if (isNaN(d.getTime())) return dateString;
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
+    function openDatabase() {
+      return new Promise((resolve) => {
+        if (!window.indexedDB) return resolve(null);
+        try {
+          const request = window.indexedDB.open(DB_NAME, DB_VERSION);
+          request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(STORE_NAME)) db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+            if (!db.objectStoreNames.contains(CFG_STORE_NAME)) db.createObjectStore(CFG_STORE_NAME, { keyPath: 'key' });
+          };
+          request.onsuccess = (e) => {
+            dbInstance = e.target.result;
+            resolve(dbInstance);
+          };
+          request.onerror = () => resolve(null);
+        } catch (err) {
+          resolve(null);
+        }
+      });
+    }
+
+    function dbGetAll(storeName) {
+      return new Promise((resolve) => {
+        if (!dbInstance) return resolve([]);
+        try {
+          const tx = dbInstance.transaction(storeName, 'readonly');
+          const store = tx.objectStore(storeName);
+          const req = store.getAll();
+          req.onsuccess = () => resolve(req.result || []);
+          req.onerror = () => resolve([]);
+        } catch (e) { resolve([]); }
+      });
+    }
+
+    function dbSaveAll(storeName, items) {
+      return new Promise((resolve) => {
+        if (!dbInstance) return resolve();
+        try {
+          const tx = dbInstance.transaction(storeName, 'readwrite');
+          const store = tx.objectStore(storeName);
+          store.clear();
+          items.forEach(it => store.put(it));
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => resolve();
+        } catch (e) { resolve(); }
+      });
+    }
+
+    async function loadData() {
+      await openDatabase();
+
+      // Load Settings
+      try {
+        const savedCfg = await dbGetAll(CFG_STORE_NAME);
+        if (savedCfg && savedCfg.length > 0) {
+          savedCfg.forEach(row => {
+            if (row.key === 'main_settings' && row.value) {
+              appSettings = { ...appSettings, ...row.value };
+            }
+          });
+        }
+      } catch (err) {}
+      applySettingsToUI();
+
+      // Load Vouchers
+      let stored = await dbGetAll(STORE_NAME);
+      if (Array.isArray(stored) && stored.length > 0) {
+        entries = stored;
+      } else {
+        // Initial certified baseline dataset matching business ledger
+        entries = [
+          { 
+            id: '1', 
+            type: 'Expense', 
+            category: 'Machinery Purchase / Capital', 
+            date: '2026-10-01', 
+            partyName: '', 
+            description: 'મશીન કિંમત રોકડ (Ajax ARGO Purchase)', 
+            amount: 200000.00, 
+            payee: 'Karan', 
+            paymentMethod: 'Cash',
+            utrRef: 'CASH-INIT-01'
+          },
+          { 
+            id: '2', 
+            type: 'Expense', 
+            category: 'Machinery Purchase / Capital', 
+            date: '2026-10-01', 
+            partyName: '', 
+            description: 'મશીન કિંમત રોકડ', 
+            amount: 100000.00, 
+            payee: 'Jayeshbhai', 
+            paymentMethod: 'Cash',
+            utrRef: 'CASH-INIT-02'
+          },
+          { 
+            id: '3', 
+            type: 'Expense', 
+            category: 'SBI Loan Interest & EMI', 
+            date: '2026-10-01', 
+            partyName: 'State Bank of India', 
+            description: 'SBI લોન પર વ્યાજ', 
+            amount: 2878.00, 
+            payee: 'Karan', 
+            paymentMethod: 'UPI',
+            utrRef: 'SBI-EMI-88192'
+          },
+          { 
+            id: '4', 
+            type: 'Expense', 
+            category: 'Site Travel, Rail Ticket & Food', 
+            date: '2026-10-01', 
+            partyName: '', 
+            description: 'ધોળકા 3 – ટ્રેન ટિકિટ + સ્ટેમ્પ', 
+            amount: 541.00, 
+            payee: 'Karan', 
+            paymentMethod: 'UPI' 
+          },
+          {
+            id: '5',
+            type: 'Expense',
+            category: 'Operator & Driver Salary / Site Batta',
+            date: '2026-10-04',
+            partyName: 'Karan Gujariya',
+            description: 'ARGO-4001 ઓપરેટર માસિક પગાર (૨૮ શિફ્ટ + સાઇટ બટ્ટા)',
+            amount: 27533.00,
+            payee: 'Karan',
+            paymentMethod: 'Bank Transfer (NEFT/RTGS)',
+            remarks: 'Slip Ref: SLIP-202610-761 (SBI SBIN0001234)',
+            isPayslip: true,
+            payslipData: {
+              slipNo: 'SLIP-202610-761',
+              operatorName: 'Karan Gujariya',
+              machine: 'ARGO-4001',
+              period: 'October 2026',
+              totalDays: 30,
+              workedShifts: 28,
+              absentDays: 2,
+              baseSalary: 28000,
+              earnedSalary: 26133,
+              foodBatta: 1400,
+              netTakeHome: 27533,
+              bankName: 'State Bank of India',
+              ifsc: 'SBIN0001234'
+            }
+          },
+          {
+            id: '6',
+            type: 'Income',
+            category: 'Machinery Rent & Hiring Income',
+            date: '2026-10-04',
+            partyName: 'Ggg',
+            description: 'ARGO-4000 ભાડા કરાર - સિક્યોરિટી એડવાન્સ ડિપોઝિટ',
+            amount: 55000.00,
+            payee: 'Karan',
+            paymentMethod: 'UPI',
+            remarks: 'સત્તાવાર કરાર: ARGO-CNT-2026-01 (Mahuva Site)',
+            isContract: true,
+            contractData: {
+              contractRef: 'ARGO-CNT-2026-01',
+              clientName: 'Ggg',
+              clientAddress: 'Ahmedabad / Mahuva Project Site, Gujarat',
+              siteLocation: 'Mahuva',
+              machineDetails: 'Ajax Fiori ARGO 4000 (GJ38CC0057)',
+              period: '૦૪ ઓક્ટોબર ૨૦૨૬ થી ૩૧ ડિસેમ્બર ૨૦૨૬ (૩ માસ)',
+              monthlyRent: 185000,
+              advanceDeposit: 55000,
+              estimatedMonthlyBalance: 130000,
+              shiftHours: '૧૦ કલાક પ્રતિ દિવસ (માસિક ૨૬ દિવસ / ૨૪૦ કલાક મિનિમમ)'
+            }
+          },
+          {
+            id: '7',
+            type: 'Expense',
+            category: 'Machinery Maintenance & Spares',
+            date: '2026-10-05',
+            partyName: 'શિવ શક્તિ ઓટો & હાઇડ્રોલિક્સ',
+            description: 'Ajax Fiori ARGO 4000 સ્પેરપાર્ટ્સ & મેન્ટેનન્સ (2 પાર્ટ્સ)',
+            amount: 5700.00,
+            payee: 'Karan',
+            paymentMethod: 'UPI',
+            remarks: 'Order Ref: MNT-849102',
+            isMaintenance: true,
+            maintenanceData: {
+              orderNo: 'MNT-849102',
+              machine: 'Ajax Fiori ARGO 4000 (GJ38CC0057)',
+              vendor: 'શિવ શક્તિ ઓટો & હાઇડ્રોલિક્સ',
+              partsList: [
+                { name: 'Hydraulic Hose Pipe (High Pressure 1/2")', qty: 2, rate: 1600, lineTotal: 3200 },
+                { name: 'Engine Mobil Oil & Filter Element', qty: 1, rate: 1500, lineTotal: 1500 }
+              ],
+              partsTotal: 4700,
+              transportCharge: 200,
+              labourCharge: 800,
+              grandTotal: 5700
+            }
+          }
+        ];
+        await saveData();
+      }
+
+      updateTabActionButtons();
+      renderAll();
+    }
+
+    async function saveData() {
+      await dbSaveAll(STORE_NAME, entries);
+    }
+
+    async function saveSettingsData() {
+      await dbSaveAll(CFG_STORE_NAME, [{ key: 'main_settings', value: appSettings }]);
+    }
+
+    function applySettingsToUI() {
+      const setSafeText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = val;
+      };
+
+      setSafeText('navBrandName', appSettings.companyName);
+      setSafeText('navBrandDesc', `${appSettings.partner1} & ${appSettings.partner2} • 50/50 ભાગીદારી ખાતાવહી`);
+      setSafeText('kpiP1Name', `${appSettings.partner1} • કુલ યોગદાન`);
+      setSafeText('kpiP2Name', `${appSettings.partner2} • કુલ યોગદાન`);
+      setSafeText('thP1Header', `${appSettings.partner1} નેટ`);
+      setSafeText('thP2Header', `${appSettings.partner2} નેટ`);
+      setSafeText('spP1Label', `${appSettings.partner1} દ્વારા ખરીદેલ`);
+      setSafeText('spP2Label', `${appSettings.partner2} દ્વારા ખરીદેલ`);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const today = new Date().toISOString().split('T')[0];
+      ['v_date', 's_date', 'c_date', 'sal_date', 'm_date'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = today;
+      });
+      loadData();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModals();
+        closeConfirmModal();
+      }
+    });
+
+    function updateTabActionButtons() {
+      const container = document.getElementById('tabActionContainer');
+      if (!container) return;
+
+      if (currentView === 'master') {
+        container.innerHTML = `
+          <button onclick="openVoucherModal()" class="px-3.5 py-2.5 bg-orange-600 hover:bg-orange-500 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md transition flex items-center gap-2">
+            <i class="fa-solid fa-receipt"></i> + વાઉચર બનાવો (Add Voucher)
+          </button>
+          <button onclick="openSettlementModal()" class="px-3.5 py-2.5 bg-indigo-700 hover:bg-indigo-600 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md transition flex items-center gap-1.5">
+            <i class="fa-solid fa-handshake"></i> 50/50 Settle
+          </button>
+        `;
+      } else if (currentView === 'parties') {
+        container.innerHTML = `
+          <button onclick="openNewContractModal()" class="px-3.5 py-2.5 bg-amber-600 hover:bg-amber-500 text-slate-950 rounded-xl text-xs sm:text-sm font-black shadow-md transition flex items-center gap-2">
+            <i class="fa-solid fa-file-contract"></i> + નવો કરાર ઉમેરો (Add Contract)
+          </button>
+          <button onclick="openVoucherForParty('')" class="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 rounded-xl text-xs sm:text-sm font-bold shadow transition flex items-center gap-2">
+            <i class="fa-solid fa-plus"></i> + નવો ભાડા હપ્તો (Add Rent)
+          </button>
+        `;
+      } else if (currentView === 'parts') {
+        container.innerHTML = `
+          <button onclick="openMaintenanceModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md transition flex items-center gap-2">
+            <i class="fa-solid fa-wrench"></i> + સ્પેરપાર્ટ્સ / મેન્ટેનન્સ ઉમેરો (Add Maintenance)
+          </button>
+        `;
+      } else if (currentView === 'salaries') {
+        container.innerHTML = `
+          <button onclick="openSalarySlipModal()" class="px-4 py-2.5 bg-sky-700 hover:bg-sky-600 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md transition flex items-center gap-2">
+            <i class="fa-solid fa-id-card-clip"></i> + ઓપરેટર પગાર સ્લિપ ઉમેરો (Add Operator Bill)
+          </button>
+        `;
+      }
+    }
+
+    function switchView(view) {
+      currentView = view;
+      const masterView = document.getElementById('masterLedgerView');
+      const partyView = document.getElementById('partyLedgerView');
+      const partsView = document.getElementById('partsLedgerView');
+      const salaryView = document.getElementById('salaryLedgerView');
+
+      const masterBtn = document.getElementById('tabMasterBtn');
+      const partiesBtn = document.getElementById('tabPartiesBtn');
+      const partsBtn = document.getElementById('tabPartsBtn');
+      const salaryBtn = document.getElementById('tabSalaryBtn');
+
+      [masterView, partyView, partsView, salaryView].forEach(v => { if (v) v.classList.add('hidden'); });
+      [masterBtn, partiesBtn, partsBtn, salaryBtn].forEach(b => {
+        if (b) {
+          b.className = "px-4 py-3 font-bold text-xs sm:text-sm rounded-t-xl transition-all border-b-2 border-transparent text-slate-400 hover:text-white hover:bg-slate-800/50 flex items-center gap-2 whitespace-nowrap";
+        }
+      });
+
+      updateTabActionButtons();
+
+      if (view === 'master') {
+        if (masterView) masterView.classList.remove('hidden');
+        if (masterBtn) masterBtn.className = "px-4 py-3 font-bold text-xs sm:text-sm rounded-t-xl transition-all border-b-2 border-orange-500 text-orange-400 bg-slate-900 shadow-sm flex items-center gap-2 whitespace-nowrap";
+      } else if (view === 'parties') {
+        if (partyView) partyView.classList.remove('hidden');
+        if (partiesBtn) partiesBtn.className = "px-4 py-3 font-bold text-xs sm:text-sm rounded-t-xl transition-all border-b-2 border-amber-500 text-amber-400 bg-slate-900 shadow-sm flex items-center gap-2 whitespace-nowrap";
+        renderPartyGrid();
+      } else if (view === 'parts') {
+        if (partsView) partsView.classList.remove('hidden');
+        if (partsBtn) partsBtn.className = "px-4 py-3 font-bold text-xs sm:text-sm rounded-t-xl transition-all border-b-2 border-emerald-500 text-emerald-400 bg-slate-900 shadow-sm flex items-center gap-2 whitespace-nowrap";
+        renderPartsGrid();
+      } else if (view === 'salaries') {
+        if (salaryView) salaryView.classList.remove('hidden');
+        if (salaryBtn) salaryBtn.className = "px-4 py-3 font-bold text-xs sm:text-sm rounded-t-xl transition-all border-b-2 border-sky-500 text-sky-400 bg-slate-900 shadow-sm flex items-center gap-2 whitespace-nowrap";
+        renderSalaryGrid();
+      }
+    }
+
+    function renderAll() {
+      entries.sort((a, b) => (new Date(a.date).getTime() || 0) - (new Date(b.date).getTime() || 0));
+
+      let totalJointSpend = 0;
+      let karanNet = 0;
+      let jayeshNet = 0;
+      let karanCount = 0;
+      let jayeshCount = 0;
+
+      entries.forEach((item) => {
+        const amt = parseFloat(item.amount) || 0;
+        if (item.type === 'Settlement') {
+          if (item.payer === 'Karan') { karanNet += amt; jayeshNet -= amt; }
+          else { jayeshNet += amt; karanNet -= amt; }
+        } else if (item.type === 'Expense') {
+          totalJointSpend += amt;
+          if (item.payee === 'Karan') { karanNet += amt; karanCount++; }
+          else { jayeshNet += amt; jayeshCount++; }
+        } else if (item.type === 'Income') {
+          totalJointSpend -= amt;
+          if (item.payee === 'Karan') { karanNet -= amt; karanCount++; }
+          else { jayeshNet += amt; jayeshCount++; }
+        }
+        item._karanNet = karanNet;
+        item._jayeshNet = jayeshNet;
+      });
+
+      const target50 = totalJointSpend / 2;
+      const diff = karanNet - jayeshNet;
+      const settlementDue = Math.abs(diff) / 2;
+
+      const setSafeText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = val;
+      };
+
+      setSafeText('kpiTotal', formatINR(totalJointSpend));
+      setSafeText('kpiTarget', formatINR(target50));
+      setSafeText('kpiKaran', formatINR(karanNet));
+      setSafeText('kpiJayesh', formatINR(jayeshNet));
+      setSafeText('kpiKaranCount', `${karanCount} વ્યવહારો`);
+      setSafeText('kpiJayeshCount', `${jayeshCount} વ્યવહારો`);
+
+      const sCard = document.getElementById('kpiSettlementCard');
+      const sText = document.getElementById('kpiSettlementText');
+      const btnSettle = document.getElementById('btnQuickSettle');
+
+      if (sCard && sText && btnSettle) {
+        if (Math.abs(diff) < 0.01) {
+          sCard.className = "bg-slate-900 border border-emerald-500/30 rounded-2xl p-5 shadow-sm relative flex flex-col justify-between";
+          sText.innerHTML = `<p class="text-xl font-black text-emerald-400">હિસાબ સરભર છે</p><p class="text-xs text-slate-400 mt-0.5">કોઈએ કોઈને ચૂકવવાના નથી (0.00)</p>`;
+          btnSettle.classList.add('hidden');
+        } else {
+          btnSettle.classList.remove('hidden');
+          btnSettle.classList.add('inline-flex');
+          if (diff > 0) {
+            sCard.className = "bg-slate-900 border border-orange-500/40 rounded-2xl p-5 shadow-sm relative flex flex-col justify-between";
+            sText.innerHTML = `<p class="text-sm font-black text-orange-400">${appSettings.partner2} <i class="fa-solid fa-arrow-right text-orange-500 mx-1"></i> ${appSettings.partner1}</p>
+                               <div class="mt-1 text-lg font-black text-white font-mono-num">ચૂકવવાના: ${formatINR(settlementDue)}</div>`;
+          } else {
+            sCard.className = "bg-slate-900 border border-sky-500/40 rounded-2xl p-5 shadow-sm relative flex flex-col justify-between";
+            sText.innerHTML = `<p class="text-sm font-black text-sky-400">${appSettings.partner1} <i class="fa-solid fa-arrow-right text-sky-500 mx-1"></i> ${appSettings.partner2}</p>
+                               <div class="mt-1 text-lg font-black text-white font-mono-num">ચૂકવવાના: ${formatINR(settlementDue)}</div>`;
+          }
+        }
+      }
+
+      // Party List for Datalist (Exclude spare parts vendors strictly from client hiring list)
+      const rentalClientNames = [...new Set(entries.filter(e => !e.isMaintenance && e.category !== 'Machinery Maintenance & Spares').map(e => e.partyName).filter(Boolean))];
+      const dataList = document.getElementById('partyDataList');
+      if (dataList) {
+        dataList.innerHTML = rentalClientNames.map(p => `<option value="${escapeHtml(p)}"></option>`).join('');
+      }
+
+      setSafeText('partyBadgeCount', rentalClientNames.length);
+
+      let totalPartItemCount = 0;
+      entries.filter(e => e.isMaintenance).forEach(m => {
+        totalPartItemCount += (m.maintenanceData?.partsList?.length || 1);
+      });
+      setSafeText('partsBadgeCount', totalPartItemCount);
+
+      const salaryCount = entries.filter(e => e.isPayslip || e.category?.includes('Salary')).length;
+      setSafeText('salaryBadgeCount', salaryCount);
+
+      renderMasterTable();
+      if (currentView === 'parties') renderPartyGrid();
+      if (currentView === 'parts') renderPartsGrid();
+      if (currentView === 'salaries') renderSalaryGrid();
+    }
+
+    function renderMasterTable() {
+      const tbody = document.getElementById('ledgerBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const searchInput = document.getElementById('searchInput');
+      const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+      const displayEntries = entries.filter(item => 
+        (item.description || '').toLowerCase().includes(searchTerm) ||
+        (item.partyName || '').toLowerCase().includes(searchTerm) ||
+        (item.category || '').toLowerCase().includes(searchTerm) ||
+        (item.remarks || '').toLowerCase().includes(searchTerm) ||
+        (item.payee || '').toLowerCase().includes(searchTerm)
+      ).sort((a, b) => {
+        const timeA = new Date(a.date).getTime() || 0;
+        const timeB = new Date(b.date).getTime() || 0;
+        if (timeB !== timeA) return timeB - timeA;
+        return (Number(b.id) || 0) - (Number(a.id) || 0);
+      });
+
+      const recCount = document.getElementById('recordCount');
+      if (recCount) recCount.innerText = `${displayEntries.length} Vouchers`;
+
+      const emptyEl = document.getElementById('emptyState');
+      if (emptyEl) {
+        if (displayEntries.length === 0) emptyEl.classList.remove('hidden');
+        else emptyEl.classList.add('hidden');
+      }
+
+      displayEntries.forEach((item) => {
+        const isSettlement = item.type === 'Settlement';
+        const isIncome = item.type === 'Income';
+
+        const typeBadge = isSettlement 
+          ? `<span class="bg-indigo-950 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded text-[10px] font-bold"><i class="fa-solid fa-handshake mr-1"></i>૫૦/૫૦ પતાવટ</span>`
+          : isIncome
+            ? `<span class="bg-emerald-950 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded text-[10px] font-bold"><i class="fa-solid fa-arrow-down mr-1"></i>ભાડું / આવક</span>`
+            : `<span class="bg-rose-950 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded text-[10px] font-bold"><i class="fa-solid fa-arrow-up mr-1"></i>ખર્ચ</span>`;
+
+        let partnerBadge = isSettlement 
+          ? `<span class="text-slate-300 text-[11px] font-bold">${item.payer === 'Karan' ? appSettings.partner1 : appSettings.partner2} <i class="fa-solid fa-arrow-right text-slate-500 mx-1"></i> ${item.receiver === 'Karan' ? appSettings.partner1 : appSettings.partner2}</span>`
+          : `<span class="text-[11px] font-bold ${item.payee === 'Karan' ? 'text-sky-400' : 'text-orange-400'}">${item.payee === 'Karan' ? appSettings.partner1 : appSettings.partner2}</span>`;
+
+        const hasReceipt = Boolean(item.receipt || item.maintenanceData?.billPhoto || item.maintenanceData?.partPhoto);
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/40 border-b border-slate-800/70 transition-colors group";
+
+        tr.innerHTML = `
+          <td class="px-5 py-3.5 align-top">
+            <div class="font-bold text-white text-xs sm:text-sm mb-1">${escapeHtml(item.description)}</div>
+            ${item.partyName ? `
+              <span class="inline-flex items-center text-[11px] font-bold text-orange-300 bg-orange-950/40 px-2 py-0.5 rounded border border-orange-500/20 mb-1">
+                <i class="fa-solid fa-building mr-1.5 text-orange-400"></i> ${escapeHtml(item.partyName)}
+              </span><br>
+            ` : ''}
+            <div class="text-[11px] text-slate-400 flex items-center gap-1.5">
+              <i class="fa-regular fa-calendar text-slate-500"></i> <strong class="text-slate-300 font-mono-num">${formatDateDDMMYYYY(item.date)}</strong>
+              ${item.remarks ? `• <span class="text-slate-400">${escapeHtml(item.remarks)}</span>` : ''}
+            </div>
+          </td>
+          <td class="px-5 py-3.5 align-top">
+            ${typeBadge}
+            <div class="mt-1">${partnerBadge}</div>
+            <div class="text-[10px] text-slate-500 mt-1 uppercase font-semibold">${item.paymentMethod || 'UPI'}</div>
+          </td>
+          <td class="px-5 py-3.5 text-right align-middle font-mono-num">
+            <div class="text-sm font-black ${isIncome ? 'text-emerald-400' : 'text-white'}">
+              ${isIncome ? '+' : ''}${formatINR(item.amount)}
+            </div>
+            ${!isSettlement ? `<div class="text-[10px] text-slate-500 mt-0.5">50%: ${formatINR((item.amount || 0) / 2)}</div>` : ''}
+          </td>
+          <td class="px-5 py-3.5 text-right align-middle font-mono-num text-xs sm:text-sm font-bold ${item._karanNet < 0 ? 'text-rose-400' : 'text-slate-300'}">
+            ${formatINR(item._karanNet)}
+          </td>
+          <td class="px-5 py-3.5 text-right align-middle font-mono-num text-xs sm:text-sm font-bold ${item._jayeshNet < 0 ? 'text-rose-400' : 'text-slate-300'}">
+            ${formatINR(item._jayeshNet)}
+          </td>
+          <td class="px-5 py-3.5 text-center align-middle">
+            ${hasReceipt ? `
+              <button onclick="openQuickReceiptViewer('${item.id}')" class="px-2.5 py-1 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/40 rounded-lg text-xs font-bold transition flex items-center gap-1.5 mx-auto shadow-sm">
+                <i class="fa-solid fa-paperclip text-emerald-400"></i> રસીદ જુઓ
+              </button>
+            ` : `<span class="text-slate-600 text-xs">—</span>`}
+          </td>
+          <td class="px-5 py-3.5 text-center align-middle">
+            <button onclick="renderA4Voucher('${item.id}')" class="px-3 py-1 bg-slate-800 hover:bg-orange-600 hover:text-white text-orange-400 rounded-lg text-xs font-bold transition border border-slate-700 shadow-sm flex items-center gap-1.5 mx-auto">
+              <i class="fa-solid fa-receipt"></i> A4 વાઉચર
+            </button>
+          </td>
+          <td class="px-5 py-3.5 text-center align-middle no-print whitespace-nowrap">
+            <div class="flex items-center justify-center gap-2">
+              ${item.isMaintenance ? `
+                <button type="button" onclick="editMaintenanceEntry('${item.id}')" class="p-1.5 text-slate-400 hover:text-emerald-400" title="સ્પેરપાર્ટ્સ વિગત સુધારો">
+                  <i class="fa-solid fa-pen text-xs"></i>
+                </button>
+              ` : !isSettlement ? `
+                <button type="button" onclick="editEntry('${item.id}')" class="p-1.5 text-slate-400 hover:text-sky-400" title="સુધારો કરો">
+                  <i class="fa-solid fa-pen text-xs"></i>
+                </button>
+              ` : ''}
+              <button type="button" onclick="deleteEntry('${item.id}')" class="p-1.5 text-slate-400 hover:text-rose-400" title="ડિલીટ">
+                <i class="fa-solid fa-trash-can text-xs"></i>
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openQuickReceiptViewer(id) {
+      const entry = entries.find(x => String(x.id) === String(id));
+      if (!entry) return;
+
+      const receiptUrl = entry.receipt || entry.maintenanceData?.billPhoto || entry.maintenanceData?.partPhoto;
+      if (!receiptUrl) {
+        showToast("આ વાઉચર માટે કોઈ રસીદ જોડેલ નથી.");
+        return;
+      }
+
+      document.getElementById('quickReceiptTitle').innerText = `${entry.description} • રસીદ પુરાવો`;
+      const downloadBtn = document.getElementById('quickReceiptDownloadBtn');
+      downloadBtn.href = receiptUrl;
+      downloadBtn.download = `Receipt_${entry.id}_${formatDateDDMMYYYY(entry.date).replace(/\//g, '-')}.jpg`;
+
+      const body = document.getElementById('quickReceiptBody');
+      if (entry.receiptType && entry.receiptType.includes('pdf')) {
+        body.innerHTML = `<iframe src="${receiptUrl}" class="w-full h-[65vh] rounded-2xl border border-slate-700"></iframe>`;
+      } else {
+        body.innerHTML = `
+          <div class="flex flex-col items-center gap-3">
+            <img src="${receiptUrl}" class="max-h-[65vh] max-w-full rounded-2xl border border-slate-700 object-contain shadow-2xl" alt="Receipt">
+            <span class="text-xs text-slate-400 font-mono-num font-semibold">તારીખ: ${formatDateDDMMYYYY(entry.date)} | રકમ: ${formatINR(entry.amount)}</span>
+          </div>
+        `;
+      }
+
+      document.getElementById('quickReceiptModal').classList.remove('hidden');
+    }
+
+    function renderPartyGrid() {
+      const grid = document.getElementById('partyGrid');
+      const empty = document.getElementById('partyEmptyState');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const partyMap = {};
+
+      // STRICT ISOLATION: Exclude maintenance/spare parts vendors entirely from client rent cards!
+      entries.forEach(e => {
+        if (e.isMaintenance || e.category === 'Machinery Maintenance & Spares') return;
+        const party = (e.partyName || '').trim();
+        if (!party) return;
+
+        if (!partyMap[party]) {
+          partyMap[party] = {
+            name: party,
+            totalIncome: 0,
+            incomeInstallments: 0,
+            hasContract: false,
+            contractRef: '',
+            karanGot: 0,
+            jayeshGot: 0,
+            items: []
+          };
+        }
+
+        partyMap[party].items.push(e);
+        if (e.isContract) {
+          partyMap[party].hasContract = true;
+          partyMap[party].contractRef = e.contractData?.contractRef || '';
+        }
+
+        const amt = parseFloat(e.amount) || 0;
+        if (e.type === 'Income') {
+          partyMap[party].totalIncome += amt;
+          partyMap[party].incomeInstallments++;
+          if (e.payee === 'Karan') partyMap[party].karanGot += amt;
+          else partyMap[party].jayeshGot += amt;
+        }
+      });
+
+      const parties = Object.values(partyMap);
+      if (empty) {
+        if (parties.length === 0) empty.classList.remove('hidden');
+        else empty.classList.add('hidden');
+      }
+
+      parties.forEach(p => {
+        const card = document.createElement('div');
+        card.className = "bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                <i class="fa-solid fa-building"></i> ${escapeHtml(p.name)}
+              </span>
+              <span class="text-[10px] font-bold text-slate-400 bg-slate-900 border border-slate-800 px-2 py-0.5 rounded">
+                ${p.incomeInstallments} હપ્તાઓ જમા
+              </span>
+            </div>
+
+            <div class="mt-3">
+              <span class="text-[10px] uppercase font-bold text-slate-400">કુલ જમા ભાડું (Total Contract Rent)</span>
+              <p class="text-2xl font-black text-emerald-400 font-mono-num">${formatINR(p.totalIncome)}</p>
+              <span class="text-[10px] text-emerald-500 font-semibold block mt-0.5">✓ સ્પેરપાર્ટ્સ ખર્ચથી 100% સ્વતંત્ર</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-800 text-xs">
+              <div class="bg-slate-900 p-2 rounded-xl border border-slate-800">
+                <span class="text-[10px] text-sky-400 font-bold block">${appSettings.partner1} પાસે જમા</span>
+                <span class="font-bold text-white font-mono-num">${formatINR(p.karanGot)}</span>
+              </div>
+              <div class="bg-slate-900 p-2 rounded-xl border border-slate-800">
+                <span class="text-[10px] text-orange-400 font-bold block">${appSettings.partner2} પાસે જમા</span>
+                <span class="font-bold text-white font-mono-num">${formatINR(p.jayeshGot)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 flex gap-2">
+            <button onclick="openVoucherForParty('${escapeHtml(p.name)}')" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 shadow">
+              <i class="fa-solid fa-plus"></i> નવો ભાડા હપ્તો
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderPartsGrid() {
+      const tbody = document.getElementById('partsTableBody');
+      if (!tbody) return;
+
+      const filterText = (document.getElementById('partFilterInput')?.value || '').toLowerCase().trim();
+      const payerFilter = document.getElementById('partPayerFilter')?.value || 'ALL';
+
+      tbody.innerHTML = '';
+
+      let totalPartsAmount = 0;
+      let karanPartsPaid = 0;
+      let jayeshPartsPaid = 0;
+      let totalItemCount = 0;
+
+      const maintenanceEntries = entries.filter(e => e.isMaintenance || e.category === 'Machinery Maintenance & Spares');
+
+      maintenanceEntries.forEach(m => {
+        const amt = parseFloat(m.amount) || 0;
+        totalPartsAmount += amt;
+        if (m.payee === 'Karan') karanPartsPaid += amt;
+        else jayeshPartsPaid += amt;
+
+        const parts = m.maintenanceData?.partsList || [];
+        totalItemCount += parts.length > 0 ? parts.length : 1;
+      });
+
+      const setSafeText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = val;
+      };
+
+      setSafeText('spKpiTotal', formatINR(totalPartsAmount));
+      setSafeText('spKpiKaran', formatINR(karanPartsPaid));
+      setSafeText('spKpiJayesh', formatINR(jayeshPartsPaid));
+      setSafeText('spKpiOrders', `${maintenanceEntries.length} ઓર્ડર`);
+      setSafeText('spKpiCount', `${totalItemCount} સ્પેરપાર્ટ્સ આઇટમ્સ`);
+
+      let filteredItemCount = 0;
+
+      maintenanceEntries.forEach(m => {
+        if (payerFilter !== 'ALL' && m.payee !== payerFilter) return;
+
+        const mData = m.maintenanceData || {};
+        const parts = mData.partsList || [{ name: m.description, qty: 1, rate: m.amount, lineTotal: m.amount }];
+        const machine = mData.machine || appSettings.defaultMachine;
+        const vendor = mData.vendor || m.partyName || 'સ્થાનિક વેન્ડર';
+
+        parts.forEach((p, pIdx) => {
+          const matchText = (p.name || '').toLowerCase().includes(filterText) ||
+                            machine.toLowerCase().includes(filterText) ||
+                            vendor.toLowerCase().includes(filterText);
+          if (!matchText) return;
+          filteredItemCount++;
+
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-900 transition border-b border-slate-800";
+          tr.innerHTML = `
+            <td class="px-4 py-2.5 whitespace-nowrap font-mono-num text-slate-300 font-bold">${formatDateDDMMYYYY(m.date)}</td>
+            <td class="px-4 py-2.5">
+              <span class="font-bold text-white block">${escapeHtml(p.name)}</span>
+              <span class="text-[10px] text-slate-500 font-mono-num">Ref: ${mData.orderNo || 'MNT'}</span>
+            </td>
+            <td class="px-4 py-2.5 text-slate-300">${escapeHtml(machine)}</td>
+            <td class="px-4 py-2.5 text-slate-400">${escapeHtml(vendor)}</td>
+            <td class="px-4 py-2.5 text-center font-mono-num font-bold text-white">${p.qty}</td>
+            <td class="px-4 py-2.5 text-right font-mono-num text-slate-300">${formatINR(p.rate)}</td>
+            <td class="px-4 py-2.5 text-right font-mono-num font-black text-emerald-400">${formatINR(p.lineTotal)}</td>
+            <td class="px-4 py-2.5">
+              <span class="text-[10px] font-bold ${m.payee === 'Karan' ? 'text-sky-400' : 'text-orange-400'}">
+                ${m.payee === 'Karan' ? appSettings.partner1 : appSettings.partner2}
+              </span>
+            </td>
+            <td class="px-4 py-2.5 text-center">
+              ${(mData.billPhoto || mData.partPhoto || m.receipt) ? `
+                <button type="button" onclick="openQuickReceiptViewer('${m.id}')" class="text-emerald-400 hover:text-emerald-300 text-sm" title="રસીદ જુઓ">
+                  <i class="fa-solid fa-paperclip"></i>
+                </button>
+              ` : `<span class="text-slate-600">—</span>`}
+            </td>
+            <td class="px-4 py-2.5 text-center no-print whitespace-nowrap">
+              <div class="flex items-center justify-center gap-2">
+                <button onclick="editMaintenanceEntry('${m.id}')" class="px-2 py-1 bg-slate-800 hover:bg-emerald-600 text-slate-200 hover:text-white rounded text-[11px] font-bold transition flex items-center gap-1 shadow-sm" title="સ્પેરપાર્ટ્સ એડિટ કરો">
+                  <i class="fa-solid fa-pen text-[10px]"></i> સુધારો
+                </button>
+                <button onclick="renderA4Voucher('${m.id}')" class="px-2 py-1 bg-slate-800 hover:bg-orange-600 text-orange-400 hover:text-white rounded text-[11px] font-bold transition flex items-center gap-1 shadow-sm" title="A4 વાઉચર / સ્લિપ પ્રિન્ટ">
+                  <i class="fa-solid fa-receipt text-[10px]"></i> સ્લિપ
+                </button>
+                <button onclick="deleteEntry('${m.id}')" class="p-1.5 text-slate-400 hover:text-rose-400 transition" title="ડિલીટ કરો">
+                  <i class="fa-solid fa-trash-can text-xs"></i>
+                </button>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      });
+
+      setSafeText('partsCountBadge', `${filteredItemCount} સ્પેરપાર્ટ્સ આઇટમ્સ`);
+    }
+
+    function renderSalaryGrid() {
+      const grid = document.getElementById('salaryGrid');
+      const empty = document.getElementById('salaryEmptyState');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const salaryEntries = entries.filter(e => e.isPayslip || e.category?.includes('Salary'));
+      if (empty) {
+        if (salaryEntries.length === 0) empty.classList.remove('hidden');
+        else empty.classList.add('hidden');
+      }
+
+      salaryEntries.forEach(item => {
+        const pData = item.payslipData || {};
+        const card = document.createElement('div');
+        card.className = "bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-black bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                <i class="fa-solid fa-user-check"></i> ${escapeHtml(item.partyName || 'Operator')}
+              </span>
+              <span class="text-[10px] font-mono-num font-bold text-slate-400 bg-slate-900 border border-slate-800 px-2 py-0.5 rounded">
+                ${pData.slipNo || 'SLIP'}
+              </span>
+            </div>
+
+            <div class="mt-3">
+              <span class="text-[10px] uppercase font-bold text-slate-400">ચોખ્ખો પગાર (NET TAKE-HOME)</span>
+              <p class="text-2xl font-black text-white font-mono-num">${formatINR(item.amount)}</p>
+              <div class="text-[11px] text-slate-400 mt-1 flex items-center gap-2">
+                <span>મશીન: <strong class="text-white">${pData.machine || 'ARGO'}</strong></span> • 
+                <span>હાજર શિફ્ટ: <strong class="text-white">${pData.workedShifts || 28}</strong></span>
+              </div>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-slate-800 text-xs flex justify-between items-center">
+              <span class="text-[11px] text-slate-400">ચૂકવનાર: <strong class="text-white">${item.payee === 'Karan' ? appSettings.partner1 : appSettings.partner2}</strong></span>
+              <span class="text-[11px] text-slate-300 font-mono-num font-bold">${formatDateDDMMYYYY(item.date)}</span>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 flex gap-2">
+            <button onclick="renderA4Voucher('${item.id}')" class="flex-1 py-2 bg-sky-700 hover:bg-sky-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow">
+              <i class="fa-solid fa-print"></i> A4 પગાર સ્લિપ પ્રિન્ટ
+            </button>
+            <button onclick="deleteEntry('${item.id}')" class="px-3 py-2 bg-rose-950/60 hover:bg-rose-900 text-rose-400 rounded-xl text-xs font-bold transition border border-rose-500/20">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderA4Voucher(entryId) {
+      const entry = entries.find(x => String(x.id) === String(entryId));
+      if (!entry) return;
+
+      const container = document.getElementById('voucherA4Printable');
+      if (!container) return;
+
+      const amt = Number(entry.amount) || 0;
+      const splitAmt = amt / 2;
+      const amtWords = numberToIndianWords(amt);
+
+      const isMaintenance = entry.isMaintenance;
+      const isContract = entry.isContract;
+      const isPayslip = entry.isPayslip;
+
+      const categoryName = entry.category || (isContract ? "Machinery Rent & Hiring Income" : "Machinery Operations");
+      const payerName = entry.type === 'Settlement' ? `${entry.payer}` : (entry.payee === 'Karan' ? appSettings.partner1 : appSettings.partner2);
+      const machineName = entry.maintenanceData?.machine || entry.contractData?.machineDetails || entry.payslipData?.machine || appSettings.defaultMachine;
+      const refNumber = entry.contractData?.contractRef || entry.maintenanceData?.orderNo || entry.payslipData?.slipNo || entry.utrRef || `VCH-${entry.id}`;
+
+      let particularsHtml = '';
+      if (isMaintenance && entry.maintenanceData?.partsList?.length > 0) {
+        entry.maintenanceData.partsList.forEach((p, idx) => {
+          particularsHtml += `
+            <tr class="border-b border-slate-200">
+              <td class="p-2.5 text-center font-mono-num text-xs">${String(idx + 1).padStart(2, '0')}</td>
+              <td class="p-2.5 text-xs">
+                <span class="font-bold text-slate-900">${escapeHtml(p.name)}</span>
+                <span class="block text-[11px] text-slate-500 font-mono-num">જથ્થો: ${p.qty} × ભાવ: ${formatINR(p.rate)}</span>
+              </td>
+              <td class="p-2.5 text-xs text-slate-600">${escapeHtml(categoryName)}</td>
+              <td class="p-2.5 text-center text-xs text-slate-500 font-medium">Exempt / General</td>
+              <td class="p-2.5 text-right font-mono-num font-bold text-xs">${formatINR(p.lineTotal)}</td>
+            </tr>
+          `;
+        });
+        if (entry.maintenanceData.transportCharge > 0) {
+          particularsHtml += `
+            <tr class="border-b border-slate-200">
+              <td class="p-2 text-center font-mono-num text-xs">•</td>
+              <td class="p-2 text-xs font-semibold text-slate-700">ટ્રાન્સપોર્ટ / કુરિયર ભાડું</td>
+              <td class="p-2 text-xs text-slate-500">Logistics</td>
+              <td class="p-2 text-center text-xs text-slate-500">General</td>
+              <td class="p-2 text-right font-mono-num font-bold text-xs">+${formatINR(entry.maintenanceData.transportCharge)}</td>
+            </tr>
+          `;
+        }
+        if (entry.maintenanceData.labourCharge > 0) {
+          particularsHtml += `
+            <tr class="border-b border-slate-200">
+              <td class="p-2 text-center font-mono-num text-xs">•</td>
+              <td class="p-2 text-xs font-semibold text-slate-700">મિકેનિક લેબર ચાર્જ (મજૂરી)</td>
+              <td class="p-2 text-xs text-slate-500">Labour Head</td>
+              <td class="p-2 text-center text-xs text-slate-500">General</td>
+              <td class="p-2 text-right font-mono-num font-bold text-xs">+${formatINR(entry.maintenanceData.labourCharge)}</td>
+            </tr>
+          `;
+        }
+      } else if (isPayslip && entry.payslipData) {
+        const pd = entry.payslipData;
+        particularsHtml = `
+          <tr class="border-b border-slate-200">
+            <td class="p-2.5 text-center font-mono-num text-xs">01</td>
+            <td class="p-2.5 text-xs">
+              <span class="font-bold text-slate-900">${escapeHtml(entry.description)}</span>
+              <span class="block text-[11px] text-slate-500 font-mono-num">ફિક્સ પગાર: ${formatINR(pd.baseSalary)} | હાજર શિફ્ટ: ${pd.workedShifts}/30 | વેતન: ${formatINR(pd.earnedSalary)}</span>
+            </td>
+            <td class="p-2.5 text-xs text-slate-600">${escapeHtml(categoryName)}</td>
+            <td class="p-2.5 text-center text-xs text-slate-500">Payroll Exempt</td>
+            <td class="p-2.5 text-right font-mono-num font-bold text-xs">${formatINR(pd.earnedSalary)}</td>
+          </tr>
+          ${pd.foodBatta > 0 ? `
+            <tr class="border-b border-slate-200">
+              <td class="p-2.5 text-center font-mono-num text-xs">02</td>
+              <td class="p-2.5 text-xs font-semibold text-slate-700">સાઇટ ખોરાક ભથ્થું (Site Daily Food Batta)</td>
+              <td class="p-2.5 text-xs text-slate-500">Allowance</td>
+              <td class="p-2.5 text-center text-xs text-slate-500">Exempt</td>
+              <td class="p-2.5 text-right font-mono-num font-bold text-xs">+${formatINR(pd.foodBatta)}</td>
+            </tr>
+          ` : ''}
+        `;
+      } else {
+        particularsHtml = `
+          <tr class="border-b border-slate-200">
+            <td class="p-2.5 text-center font-mono-num text-xs">01</td>
+            <td class="p-2.5 text-xs">
+              <span class="font-bold text-slate-900">${escapeHtml(entry.description)}</span>
+              <span class="block text-[11px] text-slate-600 mt-0.5">
+                50/50 સંયુક્ત પાર્ટનર વહેંચણી: ${appSettings.partner1}: ${formatINR(splitAmt)}, ${appSettings.partner2}: ${formatINR(splitAmt)}.
+              </span>
+            </td>
+            <td class="p-2.5 text-xs text-slate-600">${escapeHtml(categoryName)}</td>
+            <td class="p-2.5 text-center text-xs text-slate-500">General / Exempt</td>
+            <td class="p-2.5 text-right font-mono-num font-bold text-xs">${formatINR(amt)}</td>
+          </tr>
+        `;
+      }
+
+      container.innerHTML = `
+        <!-- VOUCHER TOP HEADER -->
+        <div class="border-b-2 border-slate-900 pb-4 flex justify-between items-start">
+          <div class="flex items-start gap-4">
+            <div class="w-16 h-16 shrink-0">
+              <svg viewBox="0 0 200 200" class="w-full h-full" fill="none">
+                <path d="M100 24L156 126H130L100 70L70 126H44L100 24Z" fill="#EA580C"/>
+                <path d="M52 126C66 98 134 98 148 126H168C148 86 52 86 32 126H52Z" fill="#1E293B"/>
+                <rect x="94" y="96" width="12" height="20" rx="3" fill="#FFFFFF"/>
+                <path d="M78 116H92V124H78Z" fill="#0F172A"/>
+                <path d="M96 112L124 104L114 124H94L96 112Z" fill="#EA580C"/>
+                <circle cx="85" cy="126" r="6" fill="#0F172A"/>
+                <circle cx="85" cy="126" r="2.5" fill="#FFFFFF"/>
+                <circle cx="112" cy="126" r="6" fill="#0F172A"/>
+                <circle cx="112" cy="126" r="2.5" fill="#FFFFFF"/>
+              </svg>
+            </div>
+            <div>
+              <h1 class="text-xl font-black text-slate-950 uppercase tracking-tight">${escapeHtml(appSettings.companyName)}</h1>
+              <p class="text-xs font-bold text-slate-700 tracking-wide">${escapeHtml(appSettings.companyTagline)}</p>
+              <p class="text-[11px] text-slate-600 mt-0.5">${escapeHtml(appSettings.companyAddress)}</p>
+              <p class="text-[10px] text-slate-500 font-mono-num font-semibold">Phone: ${escapeHtml(appSettings.companyPhone)} | Email: ${escapeHtml(appSettings.companyEmail)}</p>
+              <p class="text-[10px] text-slate-500 font-mono-num font-semibold">GSTIN: ${escapeHtml(appSettings.gstin)} | PAN: ${escapeHtml(appSettings.pan)}</p>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <div class="inline-block bg-slate-950 text-white text-[11px] font-black uppercase px-3 py-1 rounded">
+              PAYMENT VOUCHER • ORIGINAL
+            </div>
+            <p class="text-xs font-mono-num font-bold text-slate-900 mt-2">VOUCHER NO: <span class="text-orange-600 font-black">${refNumber}</span></p>
+            <p class="text-xs text-slate-600">DATE: <span class="font-mono-num font-bold text-slate-900">${formatDateDDMMYYYY(entry.date)}</span></p>
+          </div>
+        </div>
+
+        <!-- METADATA BOXES -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs border border-slate-200 bg-slate-50 p-3 rounded-xl font-sans">
+          <div>
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">PAID TO / BENEFICIARY</span>
+            <span class="font-black text-slate-900 block truncate">${escapeHtml(entry.partyName || 'Joint Venture Account')}</span>
+            <span class="text-[10px] text-slate-500">Equip: ${escapeHtml(machineName)}</span>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">PAYMENT MODE</span>
+            <span class="font-bold text-slate-900 font-mono-num">${escapeHtml(entry.paymentMethod || 'UPI / Bank Transfer')}</span>
+            <span class="text-[10px] text-slate-500 block truncate">Payee: ${escapeHtml(payerName)}</span>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">ACCOUNT CATEGORY</span>
+            <span class="font-bold text-slate-800 block truncate">${escapeHtml(categoryName)}</span>
+            <span class="text-[10px] text-emerald-700 font-bold">50/50 Reconciled</span>
+          </div>
+          <div class="text-right sm:border-l sm:border-slate-200 sm:pl-3">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">NET AMOUNT PAID</span>
+            <span class="text-xl font-black text-slate-950 font-mono-num">${formatINR(amt)}</span>
+          </div>
+        </div>
+
+        <!-- ITEMIZED VOUCHER TABLE -->
+        <div class="border border-slate-300 rounded-xl overflow-hidden">
+          <table class="w-full text-left border-collapse">
+            <thead class="bg-slate-100 text-[10px] uppercase font-bold text-slate-700 border-b border-slate-300">
+              <tr>
+                <th class="p-2.5 text-center w-12">#</th>
+                <th class="p-2.5">PARTICULARS & ACCOUNTING HEAD</th>
+                <th class="p-2.5 w-44">CATEGORY</th>
+                <th class="p-2.5 text-center w-28">TAX STATUS</th>
+                <th class="p-2.5 text-right w-36">AMOUNT (₹)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              ${particularsHtml}
+              <tr class="bg-slate-50 font-bold border-t-2 border-slate-400 text-xs">
+                <td colspan="4" class="p-2.5 text-right uppercase tracking-wider text-slate-800">TOTAL AMOUNT PAID:</td>
+                <td class="p-2.5 text-right font-black font-mono-num text-sm text-slate-950">${formatINR(amt)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- AMOUNT IN WORDS & ENTERPRISE COORDINATES -->
+        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs space-y-1.5 font-sans">
+          <p class="font-semibold text-slate-700">
+            <span class="font-bold uppercase text-[10px] text-slate-500">AMOUNT IN WORDS (INR):</span>
+            <span class="text-slate-900 font-bold ml-1">${amtWords}</span>
+          </p>
+          <div class="pt-1.5 border-t border-slate-200 text-[11px] text-slate-600 flex flex-wrap justify-between gap-2">
+            <span>Bank: <strong>${escapeHtml(appSettings.bankName)}</strong> (A/C: ${escapeHtml(appSettings.bankAccount)})</span>
+            <span>IFSC: <strong class="font-mono-num">${escapeHtml(appSettings.bankIfsc)}</strong></span>
+            <span>UPI: <strong class="font-mono-num">${escapeHtml(appSettings.bankUpi)}</strong></span>
+          </div>
+        </div>
+
+        <!-- ATTACHED PHOTO PROOFS (IF ANY) -->
+        ${(entry.maintenanceData?.partPhoto || entry.maintenanceData?.billPhoto || entry.receipt) ? `
+          <div class="border border-slate-200 rounded-xl p-3 bg-slate-50">
+            <span class="text-[10px] uppercase font-bold text-slate-500 block mb-2">ATTACHED VOUCHER VERIFICATION PROOFS:</span>
+            <div class="flex flex-wrap gap-4">
+              ${entry.maintenanceData?.partPhoto ? `
+                <div class="text-center">
+                  <img src="${entry.maintenanceData.partPhoto}" onclick="openQuickReceiptViewer('${entry.id}')" class="h-28 rounded-lg border border-slate-300 object-cover shadow-sm cursor-pointer hover:opacity-90" alt="Part Photo">
+                  <span class="text-[9px] font-bold text-slate-600 mt-1 block">સ્પેરપાર્ટ ફોટો પુરાવો (ક્લિક કરી મોટો જુઓ)</span>
+                </div>
+              ` : ''}
+              ${entry.maintenanceData?.billPhoto ? `
+                <div class="text-center">
+                  <img src="${entry.maintenanceData.billPhoto}" onclick="openQuickReceiptViewer('${entry.id}')" class="h-28 rounded-lg border border-slate-300 object-cover shadow-sm cursor-pointer hover:opacity-90" alt="Bill Photo">
+                  <span class="text-[9px] font-bold text-slate-600 mt-1 block">દુકાન બિલ રસીદ (ક્લિક કરી મોટો જુઓ)</span>
+                </div>
+              ` : ''}
+              ${(!entry.maintenanceData && entry.receipt) ? `
+                <div class="text-center">
+                  <img src="${entry.receipt}" onclick="openQuickReceiptViewer('${entry.id}')" class="h-28 rounded-lg border border-slate-300 object-cover shadow-sm cursor-pointer hover:opacity-90" alt="Voucher Receipt">
+                  <span class="text-[9px] font-bold text-slate-600 mt-1 block">વાઉચર રસીદ પુરાવો (ક્લિક કરી મોટો જુઓ)</span>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- DECLARATIONS & DUAL SIGNATURE BOXES -->
+        <div class="pt-2 text-[10px] text-slate-500 border-t border-slate-200">
+          <p class="italic">Terms & Declarations: 1. Cheques/Drafts are subject to realization. 2. Any discrepancies in this voucher must be notified within 7 business days. 3. Certified digital accounting voucher generated under ADRINO Enterprise Fleet ERP.</p>
+        </div>
+
+        <div class="pt-8 grid grid-cols-2 gap-12 text-center text-xs">
+          <div class="border-t border-slate-400 pt-2">
+            <p class="font-black text-slate-900 uppercase">${escapeHtml(entry.partyName || payerName)}</p>
+            <p class="text-[10px] text-slate-500 font-semibold uppercase">BENEFICIARY / PAYEE SIGNATURE</p>
+          </div>
+          <div class="border-t border-slate-400 pt-2">
+            <p class="font-black text-slate-900 uppercase">FOR ${escapeHtml(appSettings.companyName)}</p>
+            <p class="text-[10px] text-slate-500 font-semibold uppercase">AUTHORIZED SIGNATORY & ACCOUNTS OFFICER</p>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 flex justify-between items-center text-[9px] text-slate-400 font-mono-num uppercase">
+          <span>COMPUTER GENERATED A4 VOUCHER</span>
+          <span>ADRINO ERP ENTERPRISE</span>
+          <span>PAGE 1 OF 1</span>
+        </div>
+      `;
+
+      document.getElementById('voucherA4Modal').classList.remove('hidden');
+    }
+
+    function compressImage(file) {
+      return new Promise((resolve) => {
+        if (!file.type || !file.type.match(/image.*/)) {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target.result);
+          reader.readAsDataURL(file);
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX = 1200;
+            let w = img.width;
+            let h = img.height;
+            if (w > h) {
+              if (w > MAX) { h *= MAX / w; w = MAX; }
+            } else {
+              if (h > MAX) { w *= MAX / h; h = MAX; }
+            }
+            canvas.width = Math.round(w);
+            canvas.height = Math.round(h);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL('image/jpeg', 0.75));
+          };
+          img.onerror = () => resolve(e.target.result);
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleReceiptFileSelect(input) {
+      if (!input.files || input.files.length === 0) return;
+      const file = input.files[0];
+      pendingReceiptType = file.type;
+
+      if (file.type && file.type.startsWith('image/')) {
+        pendingReceiptDataUrl = await compressImage(file);
+      } else {
+        pendingReceiptDataUrl = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target.result);
+          reader.readAsDataURL(file);
+        });
+      }
+      shouldClearExistingReceipt = false;
+      document.getElementById('receiptFileName').innerText = file.name || 'બિલ / રસીદ';
+
+      const thumb = document.getElementById('receiptThumbContainer');
+      if (file.type.startsWith('image/')) {
+        thumb.innerHTML = `<img src="${pendingReceiptDataUrl}" class="w-full h-full object-cover rounded-lg" alt="thumbnail">`;
+      } else {
+        thumb.innerHTML = `<i class="fa-solid fa-file-pdf text-rose-500 text-lg"></i>`;
+      }
+
+      document.getElementById('receiptPreviewBox').classList.remove('hidden');
+      document.getElementById('receiptUploadBox').classList.add('hidden');
+    }
+
+    function removeReceiptPhoto() {
+      pendingReceiptDataUrl = null;
+      pendingReceiptType = null;
+      shouldClearExistingReceipt = true;
+      const input = document.getElementById('v_receipt');
+      if (input) input.value = '';
+
+      document.getElementById('receiptPreviewBox').classList.add('hidden');
+      document.getElementById('receiptUploadBox').classList.remove('hidden');
+    }
+
+    function onTypeChange() {
+      const type = document.getElementById('v_type').value;
+      const lblPayee = document.getElementById('lblPayee');
+      const catSelect = document.getElementById('v_category');
+
+      if (type === 'Income') {
+        if (lblPayee) lblPayee.innerText = "રકમ મેળવનાર ભાગીદાર *";
+        if (catSelect && (catSelect.value.includes('Salary') || catSelect.value.includes('Loan'))) {
+          catSelect.value = 'Machinery Rent & Hiring Income';
+        }
+      } else {
+        if (lblPayee) lblPayee.innerText = "ચૂકવનાર ભાગીદાર *";
+      }
+    }
+
+    function updateLiveAllocation() {
+      const amt = parseFloat(document.getElementById('v_amount').value) || 0;
+      document.getElementById('v_split').innerText = formatINR(amt / 2);
+    }
+
+    function calculateNetSalary() {
+      const base = parseFloat(document.getElementById('sal_base').value) || 0;
+      const shifts = parseFloat(document.getElementById('sal_shifts').value) || 0;
+      const batta = parseFloat(document.getElementById('sal_batta').value) || 0;
+      const earned = Math.round((base / 30) * shifts);
+      const net = earned + batta;
+
+      document.getElementById('sal_net_preview').innerText = formatINR(net);
+      document.getElementById('sal_split_preview').innerText = formatINR(net / 2);
+    }
+
+    function openVoucherModal() {
+      editingId = null;
+      pendingReceiptDataUrl = null;
+      pendingReceiptType = null;
+      shouldClearExistingReceipt = false;
+
+      document.getElementById('modalTitle').innerHTML = `<span class="bg-orange-600 text-white px-2 py-0.5 rounded text-[10px] font-black uppercase">VOUCHER</span> 50/50 વાઉચર એન્ટ્રી બનાવો`;
+      document.getElementById('voucherForm').reset();
+      document.getElementById('v_date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('v_split').innerText = '₹0.00';
+
+      const fileInput = document.getElementById('v_receipt');
+      if (fileInput) fileInput.value = '';
+      document.getElementById('receiptPreviewBox').classList.add('hidden');
+      document.getElementById('receiptUploadBox').classList.remove('hidden');
+
+      onTypeChange();
+      document.getElementById('voucherModal').classList.remove('hidden');
+    }
+
+    function openVoucherForParty(partyName) {
+      openVoucherModal();
+      document.getElementById('v_type').value = 'Income';
+      document.getElementById('v_party').value = partyName;
+      document.getElementById('v_category').value = 'Machinery Rent & Hiring Income';
+      document.getElementById('v_desc').value = `${partyName ? partyName + ' ' : ''}મશીન ભાડા હપ્તો`;
+      onTypeChange();
+    }
+
+    function openMaintenanceModal() {
+      editingMaintenanceId = null;
+      clearExistingPartPhoto = false;
+      clearExistingBillPhoto = false;
+      pendingMaintenancePartPhoto = null;
+      pendingMaintenanceBillPhoto = null;
+
+      document.getElementById('maintenanceModalTitle').innerText = "મશીનરી સ્પેરપાર્ટ્સ & નિભાવ ઓર્ડર (PARTS WORK ORDER)";
+      document.getElementById('btnSaveMaintenanceSubmit').innerText = "સ્પેરપાર્ટ્સ ખર્ચ સેવ કરો";
+
+      document.getElementById('maintenanceForm').reset();
+      document.getElementById('m_date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('m_machine').value = appSettings.defaultMachine;
+      document.getElementById('m_transport').value = '0';
+      document.getElementById('m_labour').value = '0';
+
+      const container = document.getElementById('m_parts_container');
+      container.innerHTML = '';
+      addMaintenancePartRow('Hydraulic Hose Pipe', 1, 1500);
+
+      clearMaintenancePhoto('part');
+      clearMaintenancePhoto('bill');
+      calculateMaintenanceTotal();
+      document.getElementById('maintenanceModal').classList.remove('hidden');
+    }
+
+    function editMaintenanceEntry(id) {
+      const entry = entries.find(x => String(x.id) === String(id));
+      if (!entry) return;
+
+      editingMaintenanceId = entry.id;
+      clearExistingPartPhoto = false;
+      clearExistingBillPhoto = false;
+
+      document.getElementById('maintenanceModalTitle').innerText = `સુધારો: સ્પેરપાર્ટ્સ વાઉચર (${entry.maintenanceData?.orderNo || 'MNT'})`;
+      document.getElementById('btnSaveMaintenanceSubmit').innerText = "સુધારેલ ખર્ચ સેવ કરો";
+
+      document.getElementById('m_date').value = entry.date || new Date().toISOString().split('T')[0];
+      document.getElementById('m_machine').value = entry.maintenanceData?.machine || appSettings.defaultMachine;
+      document.getElementById('m_vendor').value = entry.maintenanceData?.vendor || entry.partyName || '';
+      document.getElementById('m_payer').value = entry.payee || 'Karan';
+      document.getElementById('m_transport').value = entry.maintenanceData?.transportCharge || 0;
+      document.getElementById('m_labour').value = entry.maintenanceData?.labourCharge || 0;
+
+      const container = document.getElementById('m_parts_container');
+      container.innerHTML = '';
+
+      const parts = entry.maintenanceData?.partsList || [{ name: entry.description, qty: 1, rate: entry.amount }];
+      parts.forEach(p => {
+        addMaintenancePartRow(p.name, p.qty, p.rate);
+      });
+
+      // Load Photos
+      const partPhoto = entry.maintenanceData?.partPhoto;
+      if (partPhoto) {
+        pendingMaintenancePartPhoto = partPhoto;
+        document.getElementById('m_part_preview_img').src = partPhoto;
+        document.getElementById('m_part_preview_wrap').classList.remove('hidden');
+        document.getElementById('m_part_upload_btn').classList.add('hidden');
+      } else {
+        clearMaintenancePhoto('part');
+      }
+
+      const billPhoto = entry.maintenanceData?.billPhoto || entry.receipt;
+      if (billPhoto) {
+        pendingMaintenanceBillPhoto = billPhoto;
+        document.getElementById('m_bill_preview_img').src = billPhoto;
+        document.getElementById('m_bill_preview_wrap').classList.remove('hidden');
+        document.getElementById('m_bill_upload_btn').classList.add('hidden');
+      } else {
+        clearMaintenancePhoto('bill');
+      }
+
+      calculateMaintenanceTotal();
+      document.getElementById('maintenanceModal').classList.remove('hidden');
+    }
+
+    function addMaintenancePartRow(name = '', qty = 1, rate = 0) {
+      const container = document.getElementById('m_parts_container');
+      const rowId = `m_row_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+
+      const div = document.createElement('div');
+      div.id = rowId;
+      div.className = "flex items-center gap-2 bg-slate-900 p-2 rounded-xl border border-slate-700";
+      div.innerHTML = `
+        <input type="text" placeholder="પાર્ટનું નામ (દા.ત. Hose Pipe, Filter, Oil)" value="${escapeHtml(name)}" class="m-part-name flex-grow px-2 py-1 text-xs bg-slate-950 border border-slate-700 text-white rounded-lg outline-none" required>
+        <input type="number" placeholder="Qty" value="${qty}" min="1" step="1" oninput="calculateMaintenanceTotal()" class="m-part-qty w-16 px-2 py-1 text-xs bg-slate-950 border border-slate-700 text-white text-center font-mono-num rounded-lg outline-none" required>
+        <input type="number" placeholder="ભાવ (₹)" value="${rate || ''}" min="0" step="0.01" oninput="calculateMaintenanceTotal()" class="m-part-rate w-24 px-2 py-1 text-xs bg-slate-950 border border-slate-700 text-white text-right font-mono-num rounded-lg outline-none font-bold" required>
+        <button type="button" onclick="removeMaintenancePartRow('${rowId}')" class="text-rose-400 hover:text-rose-300 px-1 text-xs" title="કાઢી નાખો">✕</button>
+      `;
+      container.appendChild(div);
+      calculateMaintenanceTotal();
+    }
+
+    function removeMaintenancePartRow(rowId) {
+      const row = document.getElementById(rowId);
+      if (row) {
+        row.remove();
+        calculateMaintenanceTotal();
+      }
+    }
+
+    function calculateMaintenanceTotal() {
+      let partsTotal = 0;
+      document.querySelectorAll('#m_parts_container > div').forEach(r => {
+        const qty = parseFloat(r.querySelector('.m-part-qty')?.value) || 0;
+        const rate = parseFloat(r.querySelector('.m-part-rate')?.value) || 0;
+        partsTotal += (qty * rate);
+      });
+
+      const transport = parseFloat(document.getElementById('m_transport')?.value) || 0;
+      const labour = parseFloat(document.getElementById('m_labour')?.value) || 0;
+      const grandTotal = partsTotal + transport + labour;
+
+      document.getElementById('m_total_preview').innerText = formatINR(grandTotal);
+      document.getElementById('m_split_preview').innerText = formatINR(grandTotal / 2);
+      return grandTotal;
+    }
+
+    async function handleMaintenancePhotoSelect(input, type) {
+      if (!input.files || input.files.length === 0) return;
+      const file = input.files[0];
+      const compressed = await compressImage(file);
+
+      if (type === 'part') {
+        pendingMaintenancePartPhoto = compressed;
+        clearExistingPartPhoto = false;
+        document.getElementById('m_part_preview_img').src = compressed;
+        document.getElementById('m_part_preview_wrap').classList.remove('hidden');
+        document.getElementById('m_part_upload_btn').classList.add('hidden');
+      } else {
+        pendingMaintenanceBillPhoto = compressed;
+        clearExistingBillPhoto = false;
+        document.getElementById('m_bill_preview_img').src = compressed;
+        document.getElementById('m_bill_preview_wrap').classList.remove('hidden');
+        document.getElementById('m_bill_upload_btn').classList.add('hidden');
+      }
+    }
+
+    function clearMaintenancePhoto(type) {
+      if (type === 'part') {
+        pendingMaintenancePartPhoto = null;
+        clearExistingPartPhoto = true;
+        const input = document.getElementById('m_part_photo');
+        if (input) input.value = '';
+        document.getElementById('m_part_preview_wrap').classList.add('hidden');
+        document.getElementById('m_part_upload_btn').classList.remove('hidden');
+      } else {
+        pendingMaintenanceBillPhoto = null;
+        clearExistingBillPhoto = true;
+        const input = document.getElementById('m_bill_photo');
+        if (input) input.value = '';
+        document.getElementById('m_bill_preview_wrap').classList.add('hidden');
+        document.getElementById('m_bill_upload_btn').classList.remove('hidden');
+      }
+    }
+
+    function openNewContractModal() {
+      document.getElementById('contractForm').reset();
+      document.getElementById('c_ref').value = `ARGO-CNT-2026-${String(entries.filter(e => e.isContract).length + 1).padStart(2, '0')}`;
+      document.getElementById('c_date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('c_machine').value = appSettings.defaultMachine;
+      document.getElementById('contractModal').classList.remove('hidden');
+    }
+
+    function openSalarySlipModal() {
+      document.getElementById('salaryForm').reset();
+      document.getElementById('sal_no').value = `SLIP-${new Date().toISOString().slice(0,7).replace('-','')}-${Math.floor(100 + Math.random() * 900)}`;
+      document.getElementById('sal_date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('sal_machine').value = appSettings.defaultReg;
+      calculateNetSalary();
+      document.getElementById('salaryModal').classList.remove('hidden');
+    }
+
+    function openSettlementModal() {
+      let karanNet = 0; let jayeshNet = 0;
+      entries.forEach((item) => {
+        const amt = parseFloat(item.amount) || 0;
+        if (item.type === 'Settlement') {
+          if (item.payer === 'Karan') { karanNet += amt; jayeshNet -= amt; } 
+          else { jayeshNet += amt; karanNet -= amt; }
+        } else if (item.type === 'Expense') {
+          if (item.payee === 'Karan') karanNet += amt; else jayeshNet += amt;
+        } else if (item.type === 'Income') {
+          if (item.payee === 'Karan') karanNet += amt; else jayeshNet += amt;
+        }
+      });
+
+      const diff = karanNet - jayeshNet;
+      const due = Math.abs(diff) / 2;
+      const guide = document.getElementById('s_guidance');
+
+      if (Math.abs(diff) < 0.01) {
+        guide.innerText = "હિસાબ અત્યારે સંપૂર્ણ સરભર છે (0.00).";
+        document.getElementById('s_amount').value = "0";
+      } else if (diff > 0) {
+        guide.innerText = `${appSettings.partner2}એ ${appSettings.partner1}ને ${formatINR(due)} ચૂકવવાના બાકી છે.`;
+        document.getElementById('s_payer').value = "Jayeshbhai";
+        document.getElementById('s_receiver').value = "Karan";
+        document.getElementById('s_amount').value = due.toFixed(2);
+      } else {
+        guide.innerText = `${appSettings.partner1}એ ${appSettings.partner2}ને ${formatINR(due)} ચૂકવવાના બાકી છે.`;
+        document.getElementById('s_payer').value = "Karan";
+        document.getElementById('s_receiver').value = "Jayeshbhai";
+        document.getElementById('s_amount').value = due.toFixed(2);
+      }
+
+      document.getElementById('settlementModal').classList.remove('hidden');
+    }
+
+    function openSettingsModal() {
+      document.getElementById('cfg_companyName').value = appSettings.companyName;
+      document.getElementById('cfg_companyTagline').value = appSettings.companyTagline;
+      document.getElementById('cfg_companyAddress').value = appSettings.companyAddress;
+      document.getElementById('cfg_companyPhone').value = appSettings.companyPhone;
+      document.getElementById('cfg_companyEmail').value = appSettings.companyEmail;
+      document.getElementById('cfg_gstin').value = appSettings.gstin;
+      document.getElementById('cfg_pan').value = appSettings.pan;
+      document.getElementById('cfg_partner1').value = appSettings.partner1;
+      document.getElementById('cfg_partner2').value = appSettings.partner2;
+      document.getElementById('cfg_defaultMachine').value = appSettings.defaultMachine;
+      document.getElementById('cfg_defaultReg').value = appSettings.defaultReg;
+      document.getElementById('cfg_bankName').value = appSettings.bankName;
+      document.getElementById('cfg_bankAccount').value = appSettings.bankAccount;
+      document.getElementById('cfg_bankIfsc').value = appSettings.bankIfsc;
+      document.getElementById('cfg_bankUpi').value = appSettings.bankUpi;
+
+      document.getElementById('settingsModal').classList.remove('hidden');
+    }
+
+    async function saveSettings(e) {
+      e.preventDefault();
+      appSettings.companyName = document.getElementById('cfg_companyName').value.trim();
+      appSettings.companyTagline = document.getElementById('cfg_companyTagline').value.trim();
+      appSettings.companyAddress = document.getElementById('cfg_companyAddress').value.trim();
+      appSettings.companyPhone = document.getElementById('cfg_companyPhone').value.trim();
+      appSettings.companyEmail = document.getElementById('cfg_companyEmail').value.trim();
+      appSettings.gstin = document.getElementById('cfg_gstin').value.trim();
+      appSettings.pan = document.getElementById('cfg_pan').value.trim();
+      appSettings.partner1 = document.getElementById('cfg_partner1').value.trim();
+      appSettings.partner2 = document.getElementById('cfg_partner2').value.trim();
+      appSettings.defaultMachine = document.getElementById('cfg_defaultMachine').value.trim();
+      appSettings.defaultReg = document.getElementById('cfg_defaultReg').value.trim();
+      appSettings.bankName = document.getElementById('cfg_bankName').value.trim();
+      appSettings.bankAccount = document.getElementById('cfg_bankAccount').value.trim();
+      appSettings.bankIfsc = document.getElementById('cfg_bankIfsc').value.trim();
+      appSettings.bankUpi = document.getElementById('cfg_bankUpi').value.trim();
+
+      await saveSettingsData();
+      applySettingsToUI();
+      closeModals();
+      renderAll();
+      showToast("સેટિંગ્સ સફળતાપૂર્વક અપડેટ થયા!");
+    }
+
+    async function saveVoucher(e) {
+      e.preventDefault();
+      const partyVal = document.getElementById('v_party').value.trim();
+
+      const entry = {
+        id: editingId || String(Date.now()),
+        type: document.getElementById('v_type').value,
+        date: document.getElementById('v_date').value,
+        category: document.getElementById('v_category').value,
+        partyName: partyVal,
+        description: document.getElementById('v_desc').value.trim(),
+        amount: parseFloat(document.getElementById('v_amount').value) || 0,
+        payee: document.getElementById('v_payee').value,
+        paymentMethod: document.getElementById('v_method').value,
+        remarks: document.getElementById('v_remarks').value.trim()
+      };
+
+      if (pendingReceiptDataUrl) {
+        entry.receipt = pendingReceiptDataUrl;
+        entry.receiptType = pendingReceiptType;
+      } else if (editingId && !shouldClearExistingReceipt) {
+        const oldEntry = entries.find(x => String(x.id) === String(editingId));
+        if (oldEntry && oldEntry.receipt) {
+          entry.receipt = oldEntry.receipt;
+          entry.receiptType = oldEntry.receiptType;
+        }
+      }
+
+      if (editingId) {
+        entries = entries.map(x => String(x.id) === String(editingId) ? entry : x);
+        showToast("વાઉચરમાં સુધારો સફળ થયો!");
+      } else {
+        entries.push(entry);
+        showToast("નવું વાઉચર સફળતાપૂર્વક નોંધાયું!");
+      }
+
+      await saveData();
+      closeModals();
+      renderAll();
+    }
+
+    async function saveContract(e) {
+      e.preventDefault();
+      const ref = document.getElementById('c_ref').value.trim();
+      const client = document.getElementById('c_client').value.trim();
+      const site = document.getElementById('c_site').value.trim();
+      const machine = document.getElementById('c_machine').value.trim();
+      const duration = document.getElementById('c_duration').value.trim();
+      const monthlyRent = parseFloat(document.getElementById('c_monthly_rent').value) || 0;
+      const advance = parseFloat(document.getElementById('c_advance').value) || 0;
+      const receiver = document.getElementById('c_receiver').value;
+      const date = document.getElementById('c_date').value;
+
+      const contractEntry = {
+        id: String(Date.now()),
+        type: 'Income',
+        category: 'Machinery Rent & Hiring Income',
+        date: date,
+        partyName: client,
+        description: `${machine} ભાડા કરાર - એડવાન્સ ડિપોઝિટ (${ref})`,
+        amount: advance,
+        payee: receiver,
+        paymentMethod: 'UPI',
+        remarks: `સત્તાવાર કરાર: ${ref} (સાઇટ: ${site})`,
+        isContract: true,
+        contractData: {
+          contractRef: ref,
+          clientName: client,
+          clientAddress: 'Ahmedabad / Mahuva Project Site, Gujarat',
+          siteLocation: site,
+          machineDetails: machine,
+          period: duration,
+          monthlyRent: monthlyRent,
+          advanceDeposit: advance,
+          estimatedMonthlyBalance: monthlyRent - advance,
+          shiftHours: '૧૦ કલાક પ્રતિ દિવસ (માસિક ૨૬ દિવસ / ૨૪૦ કલાક મિનિમમ)'
+        }
+      };
+
+      entries.push(contractEntry);
+      await saveData();
+      closeModals();
+      renderAll();
+      showToast(`કરાર ${ref} સેવ થયો અને એડવાન્સ ₹${advance.toLocaleString('en-IN')} જમા થયા!`);
+    }
+
+    async function saveMaintenanceEntry(e) {
+      e.preventDefault();
+      const date = document.getElementById('m_date').value;
+      const machine = document.getElementById('m_machine').value.trim();
+      const vendor = document.getElementById('m_vendor').value.trim();
+      const payer = document.getElementById('m_payer').value;
+      const transport = parseFloat(document.getElementById('m_transport').value) || 0;
+      const labour = parseFloat(document.getElementById('m_labour').value) || 0;
+
+      const partsList = [];
+      let partsTotal = 0;
+      document.querySelectorAll('#m_parts_container > div').forEach(r => {
+        const name = r.querySelector('.m-part-name')?.value.trim();
+        const qty = parseFloat(r.querySelector('.m-part-qty')?.value) || 1;
+        const rate = parseFloat(r.querySelector('.m-part-rate')?.value) || 0;
+        if (name && rate >= 0) {
+          const lineTotal = qty * rate;
+          partsTotal += lineTotal;
+          partsList.push({ name, qty, rate, lineTotal });
+        }
+      });
+
+      const grandTotal = partsTotal + transport + labour;
+      if (grandTotal <= 0) {
+        showToast("કૃપા કરીને પાર્ટ્સની રકમ દાખલ કરો!");
+        return;
+      }
+
+      let existingEntry = null;
+      if (editingMaintenanceId) {
+        existingEntry = entries.find(x => String(x.id) === String(editingMaintenanceId));
+      }
+
+      const orderNo = existingEntry?.maintenanceData?.orderNo || `MNT-${Date.now().toString().slice(-6)}`;
+
+      let finalPartPhoto = pendingMaintenancePartPhoto;
+      if (clearExistingPartPhoto) finalPartPhoto = null;
+      else if (!finalPartPhoto && existingEntry) finalPartPhoto = existingEntry.maintenanceData?.partPhoto || null;
+
+      let finalBillPhoto = pendingMaintenanceBillPhoto;
+      if (clearExistingBillPhoto) finalBillPhoto = null;
+      else if (!finalBillPhoto && existingEntry) finalBillPhoto = existingEntry.maintenanceData?.billPhoto || existingEntry.receipt || null;
+
+      const maintenanceEntry = {
+        id: editingMaintenanceId || String(Date.now()),
+        type: 'Expense',
+        category: 'Machinery Maintenance & Spares',
+        date: date,
+        partyName: vendor || 'Spare Parts Store',
+        description: `${machine} સ્પેરપાર્ટ્સ & મેન્ટેનન્સ (${partsList.length} પાર્ટ્સ)`,
+        amount: grandTotal,
+        payee: payer,
+        paymentMethod: existingEntry?.paymentMethod || 'UPI',
+        remarks: `Order Ref: ${orderNo}`,
+        receipt: finalBillPhoto || finalPartPhoto || null,
+        receiptType: 'image/jpeg',
+        isMaintenance: true,
+        maintenanceData: {
+          orderNo: orderNo,
+          machine: machine,
+          vendor: vendor || 'સ્થાનિક વેન્ડર',
+          partsList: partsList,
+          partsTotal: partsTotal,
+          transportCharge: transport,
+          labourCharge: labour,
+          grandTotal: grandTotal,
+          partPhoto: finalPartPhoto,
+          billPhoto: finalBillPhoto
+        }
+      };
+
+      if (editingMaintenanceId) {
+        entries = entries.map(x => String(x.id) === String(editingMaintenanceId) ? maintenanceEntry : x);
+        showToast(`મેન્ટેનન્સ ઓર્ડર (${orderNo}) માં સુધારો સફળ થયો!`);
+      } else {
+        entries.push(maintenanceEntry);
+        showToast(`નવો મેન્ટેનન્સ ઓર્ડર (${orderNo}) નોંધાઈ ગયો!`);
+      }
+
+      await saveData();
+      closeModals();
+      renderAll();
+    }
+
+    async function saveSalarySlip(e) {
+      e.preventDefault();
+      const slipNo = document.getElementById('sal_no').value.trim();
+      const date = document.getElementById('sal_date').value;
+      const name = document.getElementById('sal_name').value.trim();
+      const machine = document.getElementById('sal_machine').value.trim();
+      const base = parseFloat(document.getElementById('sal_base').value) || 0;
+      const shifts = parseFloat(document.getElementById('sal_shifts').value) || 0;
+      const batta = parseFloat(document.getElementById('sal_batta').value) || 0;
+      const payer = document.getElementById('sal_payer').value;
+      const mode = document.getElementById('sal_mode').value;
+
+      const earned = Math.round((base / 30) * shifts);
+      const net = earned + batta;
+
+      const salaryEntry = {
+        id: String(Date.now()),
+        type: 'Expense',
+        category: 'Operator & Driver Salary / Site Batta',
+        date: date,
+        partyName: name,
+        description: `${machine} ઓપરેટર પગાર (${shifts} શિફ્ટ + ભથ્થું)`,
+        amount: net,
+        payee: payer,
+        paymentMethod: mode,
+        remarks: `પગાર સ્લિપ ક્રમાંક: ${slipNo}`,
+        isPayslip: true,
+        payslipData: {
+          slipNo: slipNo,
+          operatorName: name,
+          machine: machine,
+          period: 'October 2026',
+          totalDays: 30,
+          workedShifts: shifts,
+          absentDays: Math.max(0, 30 - shifts),
+          baseSalary: base,
+          earnedSalary: earned,
+          foodBatta: batta,
+          netTakeHome: net,
+          bankName: 'State Bank of India',
+          ifsc: 'SBIN0001234'
+        }
+      };
+
+      entries.push(salaryEntry);
+      await saveData();
+      closeModals();
+      renderAll();
+      showToast(`ઓપરેટર પગાર સ્લિપ (${slipNo}) સેવ થઈ ગઈ!`);
+    }
+
+    async function saveSettlement(e) {
+      e.preventDefault();
+      const entry = {
+        id: String(Date.now()),
+        type: 'Settlement',
+        date: document.getElementById('s_date').value,
+        description: '50/50 પતાવટ (Settlement Transfer)',
+        amount: parseFloat(document.getElementById('s_amount').value) || 0,
+        payer: document.getElementById('s_payer').value,
+        receiver: document.getElementById('s_receiver').value,
+        paymentMethod: document.getElementById('s_method').value,
+        remarks: document.getElementById('s_remarks').value.trim()
+      };
+
+      entries.push(entry);
+      await saveData();
+      closeModals();
+      renderAll();
+      showToast("પતાવટ એન્ટ્રી માસ્ટર ખાતાવહીમાં સેવ થઈ!");
+    }
+
+    function editEntry(id) {
+      const entry = entries.find(x => String(x.id) === String(id));
+      if (!entry) return;
+      editingId = entry.id;
+      pendingReceiptDataUrl = null;
+      pendingReceiptType = null;
+      shouldClearExistingReceipt = false;
+
+      document.getElementById('modalTitle').innerHTML = `<span class="bg-sky-600 text-white px-2 py-0.5 rounded text-[10px] font-black uppercase">EDIT</span> સુધારો: ${escapeHtml(entry.description)}`;
+      document.getElementById('v_type').value = entry.type;
+      document.getElementById('v_date').value = entry.date;
+      if (entry.category) document.getElementById('v_category').value = entry.category;
+      document.getElementById('v_party').value = entry.partyName || '';
+      document.getElementById('v_desc').value = entry.description;
+      document.getElementById('v_amount').value = entry.amount;
+      document.getElementById('v_payee').value = entry.payee;
+      document.getElementById('v_method').value = entry.paymentMethod || 'UPI';
+      document.getElementById('v_remarks').value = entry.remarks || '';
+      
+      onTypeChange();
+      updateLiveAllocation();
+
+      const receiptFile = entry.receipt || entry.maintenanceData?.billPhoto || entry.maintenanceData?.partPhoto;
+      if (receiptFile) {
+        document.getElementById('receiptFileName').innerText = "જોડેલ રસીદ (હાલની ફાઇલ)";
+        document.getElementById('receiptThumbContainer').innerHTML = `<img src="${receiptFile}" class="w-full h-full object-cover rounded-lg" alt="thumbnail">`;
+        document.getElementById('receiptPreviewBox').classList.remove('hidden');
+        document.getElementById('receiptUploadBox').classList.add('hidden');
+      } else {
+        document.getElementById('receiptPreviewBox').classList.add('hidden');
+        document.getElementById('receiptUploadBox').classList.remove('hidden');
+      }
+
+      document.getElementById('voucherModal').classList.remove('hidden');
+    }
+
+    function deleteEntry(id) {
+      const item = entries.find(x => String(x.id) === String(id));
+      const title = item ? item.description : 'આ એન્ટ્રી';
+
+      openConfirmModal(
+        "વાઉચર ડિલીટ કરો",
+        `શું તમે ખરેખર "${title}" એન્ટ્રી ખાતાવહીમાંથી કાઢી નાખવા માંગો છો?`,
+        async () => {
+          entries = entries.filter(x => String(x.id) !== String(id));
+          await saveData();
+          renderAll();
+          showToast("વાઉચર સફળતાપૂર્વક ડિલીટ કર્યું!");
+        }
+      );
+    }
+
+    function openConfirmModal(title, message, callback) {
+      document.getElementById('confirmTitle').innerText = title;
+      document.getElementById('confirmMessage').innerText = message;
+      pendingConfirmAction = callback;
+      document.getElementById('confirmModal').classList.remove('hidden');
+
+      document.getElementById('confirmAcceptBtn').onclick = () => {
+        if (typeof pendingConfirmAction === 'function') {
+          pendingConfirmAction();
+        }
+        closeConfirmModal();
+      };
+    }
+
+    function closeConfirmModal() {
+      const modal = document.getElementById('confirmModal');
+      if (modal) modal.classList.add('hidden');
+      pendingConfirmAction = null;
+    }
+
+    function closeModals() {
+      const modalIds = [
+        'voucherModal',
+        'settlementModal',
+        'contractModal',
+        'salaryModal',
+        'maintenanceModal',
+        'settingsModal',
+        'voucherA4Modal',
+        'quickReceiptModal'
+      ];
+      modalIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+
+      editingId = null;
+      editingMaintenanceId = null;
+      pendingReceiptDataUrl = null;
+      pendingReceiptType = null;
+      shouldClearExistingReceipt = false;
+      pendingMaintenancePartPhoto = null;
+      pendingMaintenanceBillPhoto = null;
+      clearExistingPartPhoto = false;
+      clearExistingBillPhoto = false;
+    }
+
+    function exportCSV() {
+      let csv = '\uFEFFતારીખ,પ્રકાર,કંપની / ઓપરેટર,કેટેગરી,વિગત,ચૂકવનાર / મેળવનાર,રકમ,કરણ નેટ,જયેશ નેટ,શેરો\n';
+      [...entries].sort((a, b) => (new Date(a.date).getTime() || 0) - (new Date(b.date).getTime() || 0)).forEach(e => {
+        const type = dict.types[e.type] || e.type;
+        const payee = e.type === 'Settlement' ? `${e.payer} -> ${e.receiver}` : (e.payee === 'Karan' ? appSettings.partner1 : appSettings.partner2);
+        csv += `${formatDateDDMMYYYY(e.date)},${type},${(e.partyName||'').replace(/,/g, ' ')},${(e.category||'').replace(/,/g, ' ')},${(e.description||'').replace(/,/g, ' ')},${payee},${e.amount},${e._karanNet || 0},${e._jayeshNet || 0},${(e.remarks||'').replace(/,/g, ' ')}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `ADRINO_Ledger_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      showToast("Excel (CSV) ફાઇલ ડાઉનલોડ થઈ ગઈ!");
+    }
+
+    function exportPartsCSV() {
+      let csv = '\uFEFFતારીખ,ઓર્ડર સંદર્ભ,સ્પેરપાર્ટ નામ,મશીન,વેન્ડર,જથ્થો,ભાવ,કુલ રકમ,ચૂકવનાર\n';
+      entries.filter(e => e.isMaintenance).forEach(m => {
+        const mData = m.maintenanceData || {};
+        const parts = mData.partsList || [{ name: m.description, qty: 1, rate: m.amount, lineTotal: m.amount }];
+        parts.forEach(p => {
+          csv += `${formatDateDDMMYYYY(m.date)},${mData.orderNo || 'MNT'},${(p.name||'').replace(/,/g, ' ')},${(mData.machine||'').replace(/,/g, ' ')},${(mData.vendor||m.partyName||'').replace(/,/g, ' ')},${p.qty},${p.rate},${p.lineTotal},${m.payee === 'Karan' ? appSettings.partner1 : appSettings.partner2}\n`;
+        });
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `ADRINO_Spares_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      showToast("સ્પેરપાર્ટ્સ CSV ડાઉનલોડ થઈ ગયું!");
+    }
+
+    function shareWhatsApp() {
+      let total = 0; let kNet = 0; let jNet = 0;
+      entries.forEach((item) => {
+        const amt = parseFloat(item.amount) || 0;
+        if (item.type === 'Settlement') {
+          if (item.payer === 'Karan') { kNet += amt; jNet -= amt; } else { jNet += amt; kNet -= amt; }
+        } else if (item.type === 'Expense') {
+          total += amt;
+          if (item.payee === 'Karan') kNet += amt; else jNet += amt;
+        } else if (item.type === 'Income') {
+          total -= amt;
+          if (item.payee === 'Karan') kNet += amt; else jNet += amt;
+        }
+      });
+      const diff = kNet - jNet;
+      const due = Math.abs(diff) / 2;
+      let settlementText = "✅ હિસાબ સરભર છે (0.00)";
+      if (diff > 0) settlementText = `⚠️ ${appSettings.partner2}એ ચૂકવવાના: ${formatINR(due)}`;
+      else if (diff < 0) settlementText = `⚠️ ${appSettings.partner1}એ ચૂકવવાના: ${formatINR(due)}`;
+
+      const todayStr = formatDateDDMMYYYY(new Date().toISOString().split('T')[0]);
+      const text = `📊 *${appSettings.companyName}*\n*50/50 ભાગીદારી હિસાબ (${appSettings.partner1} & ${appSettings.partner2})*\n📅 તારીખ: ${todayStr}\n\n💰 *કુલ ચોખ્ખો સંયુક્ત ખર્ચ:* ${formatINR(total)}\n🎯 *દરેકનો 50% હિસ્સો:* ${formatINR(total/2)}\n\n👤 *${appSettings.partner1}:* ${formatINR(kNet)}\n👤 *${appSettings.partner2}:* ${formatINR(jNet)}\n\n📌 *પતાવટ સ્થિતિ (Live Status):*\n${settlementText}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function downloadBackup() {
+      const backupPayload = {
+        app: 'ADRINO_ENTERPRISE_ERP',
+        version: '5.0',
+        exportedAt: new Date().toISOString(),
+        settings: appSettings,
+        data: entries
+      };
+      const blob = new Blob([JSON.stringify(backupPayload, null, 2)], { type: 'application/json;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `ADRINO_Backup_${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      showToast("સંપૂર્ણ બેકઅપ ડાઉનલોડ થઈ ગયું!");
+    }
+
+    function uploadBackup(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed && Array.isArray(parsed.data)) {
+            entries = parsed.data;
+            if (parsed.settings) appSettings = { ...appSettings, ...parsed.settings };
+            await saveData();
+            await saveSettingsData();
+            applySettingsToUI();
+            renderAll();
+            showToast("બેકઅપ સફળતાપૂર્વક પુનઃસ્થાપિત થયું!");
+          } else if (Array.isArray(parsed)) {
+            entries = parsed;
+            await saveData();
+            renderAll();
+            showToast("વાઉચર્સ સફળતાપૂર્વક લોડ થયા!");
+          }
+        } catch (err) {
+          showToast("અમાન્ય બેકઅપ ફાઇલ!");
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    function formatINR(number) {
+      const num = Number(number);
+      return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(isNaN(num) ? 0 : num);
+    }
+
+    function escapeHtml(string) {
+      return String(string || '').replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = message;
+      toast.classList.remove('hidden');
+      setTimeout(() => { toast.classList.add('hidden'); }, 3500);
+    }
+
+    function numberToIndianWords(num) {
+      num = Math.round(Number(num) || 0);
+      if (num === 0) return 'Rupees Zero Only';
+
+      const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+      const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+      function inWords(n) {
+        let str = '';
+        if (n > 99) {
+          str += a[Math.floor(n / 100)] + 'Hundred ';
+          n %= 100;
+        }
+        if (n > 19) {
+          str += b[Math.floor(n / 10)] + ' ' + a[n % 10];
+        } else {
+          str += a[n];
+        }
+        return str;
+      }
+
+      let res = '';
+      const crore = Math.floor(num / 10000000);
+      num %= 10000000;
+      const lakh = Math.floor(num / 100000);
+      num %= 100000;
+      const thousand = Math.floor(num / 1000);
+      num %= 1000;
+      const remaining = num;
+
+      if (crore > 0) res += inWords(crore) + 'Crore ';
+      if (lakh > 0) res += inWords(lakh) + 'Lakh ';
+      if (thousand > 0) res += inWords(thousand) + 'Thousand ';
+      if (remaining > 0) res += inWords(remaining);
+
+      return 'Rupees ' + res.trim() + ' Only';
+    }
+  </script>
+</body>
+</html>
